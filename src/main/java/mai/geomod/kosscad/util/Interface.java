@@ -1,4 +1,4 @@
-package mai.geomod.kosscad;
+package mai.geomod.kosscad.util;
 
 public class Interface {
     private final WorkSpace workSpace;

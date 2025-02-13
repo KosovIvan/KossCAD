@@ -1,11 +1,15 @@
-package mai.geomod.kosscad;
+package mai.geomod.kosscad.figures;
 
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
-public abstract class Figure {
+public abstract class Figure extends Group {
     protected Color color;
     protected int thickness;
-    public Figure() {}
+    public Figure() {
+        color = Color.WHITE;
+        thickness = 2;
+    }
     public Figure(Color color, int thickness) {
         this.color = color;
         this.thickness = thickness;

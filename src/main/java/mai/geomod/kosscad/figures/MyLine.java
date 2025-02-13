@@ -1,14 +1,21 @@
-package mai.geomod.kosscad;
+package mai.geomod.kosscad.figures;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class MyLine extends Figure
 {
-    MyPoint startPoint;
-    MyPoint endPoint;
+    private final MyPoint startPoint;
+    private final MyPoint endPoint;
 
-    public MyLine() {}
+    public MyLine() {
+        startPoint = new MyPoint();
+        endPoint = new MyPoint();
+    }
+    public MyLine(MyPoint startPoint, MyPoint endPoint) {
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
     public MyLine(MyPoint startPoint, MyPoint endPoint, Color color, int thickness) {
         super(color, thickness);
         this.startPoint = startPoint;
@@ -18,15 +25,9 @@ public class MyLine extends Figure
     public MyPoint getStartPoint() {
         return startPoint;
     }
-    public void setStartPoint(MyPoint startPoint) {
-        this.startPoint = startPoint;
-    }
 
     public MyPoint getEndPoint() {
         return endPoint;
-    }
-    public void setEndPoint(MyPoint endPoint) {
-        this.endPoint = endPoint;
     }
 
     public Line Build() {

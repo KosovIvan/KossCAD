@@ -1,20 +1,16 @@
-package mai.geomod.kosscad;
+package mai.geomod.kosscad.util;
 
 import javafx.scene.layout.Pane;
 
 public class WorkSpace {
-    private double xTop;
-    private double yTop;
-    private double xBot;
-    private double yBot;
+    private double xdelta;
+    private double ydelta;
     private final Pane workSpace;
 
     public WorkSpace(Pane workSpace) {
         this.workSpace = workSpace;
-        xTop = 0;
-        yTop = 0;
-        xBot = workSpace.getWidth();
-        yBot = workSpace.getHeight();
+        xdelta = 0;
+        ydelta = 0;
     }
 
     public Pane getWorkSpace() {

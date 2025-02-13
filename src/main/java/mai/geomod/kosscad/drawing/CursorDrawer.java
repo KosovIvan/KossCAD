@@ -1,4 +1,7 @@
-package mai.geomod.kosscad;
+package mai.geomod.kosscad.drawing;
+
+import mai.geomod.kosscad.util.MyCursor;
+import mai.geomod.kosscad.util.WorkSpace;
 
 public class CursorDrawer implements IDrawable {
     private final WorkSpace space;
@@ -9,6 +12,7 @@ public class CursorDrawer implements IDrawable {
         this.cursor = cursor;
     }
 
+    @Override
     public void Draw(){
         space.getWorkSpace().getChildren().add(cursor);
     }

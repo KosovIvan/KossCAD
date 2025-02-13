@@ -1,23 +1,14 @@
 package mai.geomod.kosscad;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import mai.geomod.kosscad.drawing.CoordsDrawer;
+import mai.geomod.kosscad.drawing.CursorDrawer;
+import mai.geomod.kosscad.util.*;
 
 public class Controller {
     @FXML
@@ -49,20 +40,31 @@ public class Controller {
     @FXML
     private ToolBar inputTool;
 
-    private MyCursor cursor;
-    private Coords coords;
     private WorkSpace space;
+    private Input input;
+    private Coords coords;
+    private MyCursor cursor;
 
     @FXML
     public void initialize() {
         workSpaceInit();
+        toolBarInit();
         coordsInit();
         cursorInit();
     }
 
-    private void coordsInit(){
-        coords = new Coords(10,10);
+    private void workSpaceInit() {
+        space = new WorkSpace(workSpace);
+    }
 
+    private void toolBarInit() {
+        input = new Input(inputTool);
+        input.getToolBar().setManaged(false);
+    }
+
+    private void coordsInit(){
+        coords = new Coords(space, space.getWorkSpace().getPrefWidth() / 2,space.getWorkSpace().getPrefHeight() / 2);
+        (new CoordsDrawer(space, coords)).Draw();
     }
 
     private void cursorInit() {
@@ -75,10 +77,6 @@ public class Controller {
             cursor.update(e);
             data.setPosition(cursor.getPosition());
         });
-    }
-
-    private void workSpaceInit() {
-        space = new WorkSpace(workSpace);
     }
 
     @FXML

@@ -1,7 +1,8 @@
-package mai.geomod.kosscad;
+package mai.geomod.kosscad.util;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import mai.geomod.kosscad.figures.MyPoint;
 
 public class PositionData {
     private final VBox vbox;
