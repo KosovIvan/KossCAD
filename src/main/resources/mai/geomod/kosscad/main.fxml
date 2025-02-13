@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="mai.geomod.kosscad.Controller">
   <center>
@@ -31,15 +33,15 @@
   </left>
 
   <bottom>
-    <ToolBar style="-fx-background-color: #3B4455">
-      <VBox>
-        <Label fx:id="mouseX"/>
-        <Label fx:id="mouseY"/>
-      </VBox>
-      <ToggleButton fx:id="panBtn" onAction="#panByLBM" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Панорамирование</ToggleButton>
-      <Button onAction="#zoomPlus" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Масштаб. +</Button>
-      <Button onAction="#zoomMinus" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Масштаб. -</Button>
-      <ToggleButton fx:id="rotationBtn" onAction="#rotate" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Поворот</ToggleButton>
+    <ToolBar fx:id="bottomBar" style="-fx-background-color: #3B4455">
+      <HBox spacing="10" style="-fx-padding: 5 0 0 0;">
+        <ToggleButton fx:id="panBtn" onAction="#panByLBM"  style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Панорамирование</ToggleButton>
+        <Button onAction="#zoomPlus" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Масштаб. +</Button>
+        <Button onAction="#zoomMinus" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Масштаб. -</Button>
+        <ToggleButton fx:id="rotationBtn" onAction="#rotate" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Поворот</ToggleButton>
+      </HBox>
+      <Region fx:id="spacer" maxWidth="Infinity"/>
+      <VBox fx:id="position"></VBox>
     </ToolBar>
   </bottom>
 
