@@ -1,5 +1,7 @@
 package mai.geomod.kosscad.drawing;
 
-public interface IDrawable {
-    public void Draw();
+import mai.geomod.kosscad.util.WorkSpace;
+
+public interface IDrawable<T> {
+    public void Draw(WorkSpace space, T obj);
 }

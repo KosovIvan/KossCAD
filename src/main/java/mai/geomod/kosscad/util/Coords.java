@@ -3,12 +3,16 @@ package mai.geomod.kosscad.util;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import mai.geomod.kosscad.drawing.CoordsDrawer;
 import mai.geomod.kosscad.figures.MyPoint;
+import mai.geomod.kosscad.moving.CoordsMover;
 
 public class Coords extends Group {
     private final Line lineVert;
     private final Line lineHor;
     private final MyPoint point;
+    private final CoordsDrawer drawer;
+    private final CoordsMover mover;
     private final WorkSpace space;
 
     public Coords(WorkSpace space, double x, double y) {
@@ -28,6 +32,8 @@ public class Coords extends Group {
         lineHor.setStroke(Color.RED);
         point.setColor(Color.YELLOW);
         getChildren().addAll(lineVert, lineHor, point);
+        drawer = new CoordsDrawer();
+        mover = new CoordsMover();
     }
 
     public Line getLineVert() {
@@ -53,5 +59,13 @@ public class Coords extends Group {
         lineHor.setEndX(space.getWorkSpace().getPrefWidth());
         lineHor.setStartY(y);
         lineHor.setEndY(y);
+    }
+
+    public CoordsDrawer getDrawer() {
+        return drawer;
+    }
+
+    public CoordsMover getMover() {
+        return mover;
     }
 }

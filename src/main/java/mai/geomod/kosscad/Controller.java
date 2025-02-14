@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import mai.geomod.kosscad.drawing.CoordsDrawer;
 import mai.geomod.kosscad.drawing.CursorDrawer;
@@ -44,6 +45,7 @@ public class Controller {
     private Input input;
     private Coords coords;
     private MyCursor cursor;
+    private double[] startCord = new double[2];
 
     @FXML
     public void initialize() {
@@ -55,6 +57,21 @@ public class Controller {
 
     private void workSpaceInit() {
         space = new WorkSpace(workSpace);
+        space.getWorkSpace().setOnMousePressed(e -> {
+            if (e.getButton() == MouseButton.MIDDLE) {
+                startCord[0] = e.getX();
+                startCord[1] = e.getY();
+            }
+        });
+        space.getWorkSpace().setOnMouseDragged(e -> {
+            if (e.getButton() == MouseButton.MIDDLE) {
+                space.setxDelta(e.getX() - startCord[0]);
+                space.setyDelta(e.getY() - startCord[1]);
+                space.pan();
+                startCord[0] = e.getX();
+                startCord[1] = e.getY();
+            }
+        });
     }
 
     private void toolBarInit() {
@@ -63,8 +80,9 @@ public class Controller {
     }
 
     private void coordsInit(){
-        coords = new Coords(space, space.getWorkSpace().getPrefWidth() / 2,space.getWorkSpace().getPrefHeight() / 2);
-        (new CoordsDrawer(space, coords)).Draw();
+        coords = new Coords(space, space.getXStart(),space.getYStart());
+        coords.getDrawer().Draw(space, coords);
+        space.addObject(coords);
     }
 
     private void cursorInit() {
@@ -72,7 +90,7 @@ public class Controller {
         PositionData data = new PositionData(position);
         space.getWorkSpace().setCursor(Cursor.NONE);
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        (new CursorDrawer(space, cursor)).Draw();
+        (new CursorDrawer()).Draw(space, cursor);
         space.getWorkSpace().setOnMouseMoved(e -> {
             cursor.update(e);
             data.setPosition(cursor.getPosition());

@@ -4,18 +4,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class MyPoint extends Figure {
+    private final double xStart;
+    private final double yStart;
     private double x;
     private double y;
     private final Circle circle;
 
     public MyPoint() {
-        x = 0;
-        y = 0;
-        circle = new Circle(0,0, thickness + 1.5);
+        this(0, 0);
     }
     public MyPoint(double x, double y) {
         this.x = x;
         this.y = y;
+        xStart = x;
+        yStart = y;
         circle = new Circle(x, y, thickness + 1.5);
         circle.setFill(color);
         getChildren().add(circle);
@@ -26,6 +28,7 @@ public class MyPoint extends Figure {
     }
     public void setX(double x) {
         this.x = x;
+        circle.setCenterX(x);
     }
 
     public double getY() {
@@ -33,6 +36,15 @@ public class MyPoint extends Figure {
     }
     public void setY(double y) {
         this.y = y;
+        circle.setCenterY(y);
+    }
+
+    public double getxStart() {
+        return xStart;
+    }
+
+    public double getyStart() {
+        return yStart;
     }
 
     @Override

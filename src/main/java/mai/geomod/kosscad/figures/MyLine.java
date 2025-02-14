@@ -2,6 +2,7 @@ package mai.geomod.kosscad.figures;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import mai.geomod.kosscad.drawing.LineDrawer;
 
 public class MyLine extends Figure
 {
@@ -9,17 +10,18 @@ public class MyLine extends Figure
     private final MyPoint endPoint;
 
     public MyLine() {
-        startPoint = new MyPoint();
-        endPoint = new MyPoint();
+        this(new MyPoint(), new MyPoint());
     }
     public MyLine(MyPoint startPoint, MyPoint endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+        drawer = new LineDrawer();
     }
     public MyLine(MyPoint startPoint, MyPoint endPoint, Color color, int thickness) {
         super(color, thickness);
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+        drawer = new LineDrawer();
     }
 
     public MyPoint getStartPoint() {
