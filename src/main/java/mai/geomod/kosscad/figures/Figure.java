@@ -4,12 +4,15 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import mai.geomod.kosscad.drawing.IDrawable;
 import mai.geomod.kosscad.moving.IMovable;
+import mai.geomod.kosscad.scaling.IScalable;
 
 public abstract class Figure extends Group {
     protected Color color;
     protected int thickness;
     protected IDrawable drawer;
     protected IMovable mover;
+    protected IScalable scaler;
+
     public Figure() {
         color = Color.WHITE;
         thickness = 2;
@@ -39,5 +42,9 @@ public abstract class Figure extends Group {
 
     public IMovable getMover() {
         return mover;
+    }
+
+    public IScalable getScaler() {
+        return scaler;
     }
 }

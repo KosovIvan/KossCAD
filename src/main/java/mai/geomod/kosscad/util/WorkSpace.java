@@ -1,6 +1,8 @@
 package mai.geomod.kosscad.util;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.moving.IMovable;
@@ -57,6 +59,10 @@ public class WorkSpace {
         return yDelta;
     }
 
+    public double getScale() {
+        return scale;
+    }
+
     public void pan() {
         for (Group o : objectList) {
             if (o instanceof Figure figure) {
@@ -64,6 +70,20 @@ public class WorkSpace {
             }
             else if (o instanceof Coords coords) {
                 coords.getMover().Move(this, coords);
+            }
+        }
+    }
+
+    public void scale(ScrollEvent e) {
+        scale = (e.getDeltaY() > 0) ? 0.9 : 1.1;
+        xDelta += (e.getX() - xStart) * scale - (e.getX() - xStart);
+        yDelta += (e.getY() - yStart) * scale - (e.getY() - yStart);
+        for (Group o: objectList) {
+            if (o instanceof Figure figure) {
+                figure.getScaler().Scale(this, figure, e.getX(), e.getY());
+            }
+            else if (o instanceof Coords coords) {
+                coords.getScaler().Scale(this, coords, e.getX(), e.getY());
             }
         }
     }

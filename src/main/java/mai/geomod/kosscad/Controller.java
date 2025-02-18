@@ -68,9 +68,13 @@ public class Controller {
                 space.setxDelta(e.getX() - startCord[0]);
                 space.setyDelta(e.getY() - startCord[1]);
                 space.pan();
+                cursor.update(e);
                 startCord[0] = e.getX();
                 startCord[1] = e.getY();
             }
+        });
+        space.getWorkSpace().setOnScroll(e -> {
+            space.scale(e);
         });
     }
 

@@ -6,6 +6,7 @@ import javafx.scene.shape.Line;
 import mai.geomod.kosscad.drawing.CoordsDrawer;
 import mai.geomod.kosscad.figures.MyPoint;
 import mai.geomod.kosscad.moving.CoordsMover;
+import mai.geomod.kosscad.scaling.CoordsScaler;
 
 public class Coords extends Group {
     private final Line lineVert;
@@ -13,6 +14,7 @@ public class Coords extends Group {
     private final MyPoint point;
     private final CoordsDrawer drawer;
     private final CoordsMover mover;
+    private final CoordsScaler scaler;
     private final WorkSpace space;
 
     public Coords(WorkSpace space, double x, double y) {
@@ -34,6 +36,7 @@ public class Coords extends Group {
         getChildren().addAll(lineVert, lineHor, point);
         drawer = new CoordsDrawer();
         mover = new CoordsMover();
+        scaler = new CoordsScaler();
     }
 
     public Line getLineVert() {
@@ -67,5 +70,9 @@ public class Coords extends Group {
 
     public CoordsMover getMover() {
         return mover;
+    }
+
+    public CoordsScaler getScaler() {
+        return scaler;
     }
 }
