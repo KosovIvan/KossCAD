@@ -7,6 +7,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
+import mai.geomod.kosscad.configurators.LineConfigurator;
 import mai.geomod.kosscad.drawing.CoordsDrawer;
 import mai.geomod.kosscad.drawing.CursorDrawer;
 import mai.geomod.kosscad.util.*;
@@ -45,6 +46,7 @@ public class Controller {
     private Input input;
     private Coords coords;
     private MyCursor cursor;
+    private LineConfigurator lineConf;
     private double[] startCord = new double[2];
 
     @FXML
@@ -57,6 +59,7 @@ public class Controller {
 
     private void workSpaceInit() {
         space = new WorkSpace(workSpace);
+        lineConf = new LineConfigurator(space);
         space.getWorkSpace().setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.MIDDLE) {
                 startCord[0] = e.getX();
@@ -91,7 +94,7 @@ public class Controller {
 
     private void cursorInit() {
         cursor = new MyCursor();
-        PositionData data = new PositionData(position);
+        PositionData data = new PositionData(position, space);
         space.getWorkSpace().setCursor(Cursor.NONE);
         HBox.setHgrow(spacer, Priority.ALWAYS);
         (new CursorDrawer()).Draw(space, cursor);
@@ -103,7 +106,7 @@ public class Controller {
 
     @FXML
     private void lineDrawing(ActionEvent event) {
-
+        lineConf.Activate(lineBtn);
     }
 
     @FXML

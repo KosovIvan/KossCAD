@@ -2,9 +2,11 @@ package mai.geomod.kosscad.util;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import mai.geomod.kosscad.figures.Figure;
+import mai.geomod.kosscad.figures.MyPoint;
 import mai.geomod.kosscad.moving.IMovable;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class WorkSpace {
     private double scale;
     private final Pane workSpace;
     private final List<Group> objectList;
+    private EventHandler<MouseEvent> leftMouseClick;
 
     public WorkSpace(Pane workSpace) {
         this.workSpace = workSpace;
@@ -45,6 +48,10 @@ public class WorkSpace {
         objectList.add(object);
     }
 
+    public void removePoints(List<MyPoint> objects) {
+        objectList.removeAll(objects);
+    }
+
     public void setxDelta(double xDelta) {
         this.xDelta += xDelta;
     }
@@ -63,6 +70,10 @@ public class WorkSpace {
         return scale;
     }
 
+    public void setLeftMouseClick(EventHandler<MouseEvent> leftMouseClick) {
+        this.leftMouseClick = leftMouseClick;
+    }
+
     public void pan() {
         for (Group o : objectList) {
             if (o instanceof Figure figure) {
@@ -75,15 +86,16 @@ public class WorkSpace {
     }
 
     public void scale(ScrollEvent e) {
-        scale = (e.getDeltaY() > 0) ? 0.9 : 1.1;
-        xDelta += (e.getX() - xStart) * scale - (e.getX() - xStart);
-        yDelta += (e.getY() - yStart) * scale - (e.getY() - yStart);
+        double curScale = (e.getDeltaY() > 0) ? 0.9 : 1.1;
+        scale *= curScale;
+        xDelta += (e.getX() - xStart) * curScale - (e.getX() - xStart);
+        yDelta += (e.getY() - yStart) * curScale - (e.getY() - yStart);
         for (Group o: objectList) {
             if (o instanceof Figure figure) {
-                figure.getScaler().Scale(this, figure, e.getX(), e.getY());
+                figure.getScaler().Scale(curScale, figure, e.getX(), e.getY());
             }
             else if (o instanceof Coords coords) {
-                coords.getScaler().Scale(this, coords, e.getX(), e.getY());
+                coords.getScaler().Scale(curScale, coords, e.getX(), e.getY());
             }
         }
     }
