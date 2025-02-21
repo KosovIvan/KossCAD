@@ -2,16 +2,11 @@ package mai.geomod.kosscad.figures;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import mai.geomod.kosscad.drawing.IDrawable;
-import mai.geomod.kosscad.moving.IMovable;
-import mai.geomod.kosscad.scaling.IScalable;
+import mai.geomod.kosscad.util.WorkSpace;
 
 public abstract class Figure extends Group {
     protected Color color;
     protected int thickness;
-    protected IDrawable drawer;
-    protected IMovable mover;
-    protected IScalable scaler;
 
     public Figure() {
         color = Color.WHITE;
@@ -36,15 +31,7 @@ public abstract class Figure extends Group {
         this.thickness = thickness;
     }
 
-    public IDrawable getDrawer() {
-        return drawer;
-    }
-
-    public IMovable getMover() {
-        return mover;
-    }
-
-    public IScalable getScaler() {
-        return scaler;
-    }
+    public abstract void Draw(WorkSpace space);
+    public abstract void Move(double xDelta, double yDelta);
+    public abstract void Scale(double scale, double cursorX, double cursorY);
 }

@@ -35,4 +35,8 @@ public class MyCursor extends Group {
         double y = lineHor.getStartY();
         return new MyPoint(x, y);
     }
+
+    public void Draw(WorkSpace space){
+        space.getWorkSpace().getChildren().add(this);
+    }
 }

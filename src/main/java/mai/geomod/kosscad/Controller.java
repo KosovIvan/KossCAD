@@ -8,8 +8,6 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import mai.geomod.kosscad.configurators.LineConfigurator;
-import mai.geomod.kosscad.drawing.CoordsDrawer;
-import mai.geomod.kosscad.drawing.CursorDrawer;
 import mai.geomod.kosscad.util.*;
 
 public class Controller {
@@ -68,9 +66,7 @@ public class Controller {
         });
         space.getWorkSpace().setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.MIDDLE) {
-                space.setxDelta(e.getX() - startCord[0]);
-                space.setyDelta(e.getY() - startCord[1]);
-                space.pan();
+                space.pan(e.getX() - startCord[0], e.getY() - startCord[1]);
                 cursor.update(e);
                 startCord[0] = e.getX();
                 startCord[1] = e.getY();
@@ -88,16 +84,17 @@ public class Controller {
 
     private void coordsInit(){
         coords = new Coords(space, space.getXStart(),space.getYStart());
-        coords.getDrawer().Draw(space, coords);
+        coords.Draw(space);
         space.addObject(coords);
+        space.setCenter(coords.getPoint());
     }
 
     private void cursorInit() {
         cursor = new MyCursor();
-        PositionData data = new PositionData(position, space);
+        PositionData data = new PositionData(position, space, coords);
         space.getWorkSpace().setCursor(Cursor.NONE);
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        (new CursorDrawer()).Draw(space, cursor);
+        cursor.Draw(space);
         space.getWorkSpace().setOnMouseMoved(e -> {
             cursor.update(e);
             data.setPosition(cursor.getPosition());

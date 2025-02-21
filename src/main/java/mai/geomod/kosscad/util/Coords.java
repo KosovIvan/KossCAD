@@ -3,18 +3,12 @@ package mai.geomod.kosscad.util;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import mai.geomod.kosscad.drawing.CoordsDrawer;
 import mai.geomod.kosscad.figures.MyPoint;
-import mai.geomod.kosscad.moving.CoordsMover;
-import mai.geomod.kosscad.scaling.CoordsScaler;
 
 public class Coords extends Group {
     private final Line lineVert;
     private final Line lineHor;
     private final MyPoint point;
-    private final CoordsDrawer drawer;
-    private final CoordsMover mover;
-    private final CoordsScaler scaler;
     private final WorkSpace space;
 
     public Coords(WorkSpace space, double x, double y) {
@@ -34,9 +28,6 @@ public class Coords extends Group {
         lineHor.setStroke(Color.RED);
         point.setColor(Color.YELLOW);
         getChildren().addAll(lineVert, lineHor, point);
-        drawer = new CoordsDrawer();
-        mover = new CoordsMover();
-        scaler = new CoordsScaler();
     }
 
     public Line getLineVert() {
@@ -59,20 +50,22 @@ public class Coords extends Group {
         lineVert.setStartY(0);
         lineVert.setEndY(space.getWorkSpace().getPrefHeight());
         lineHor.setStartX(0);
-        lineHor.setEndX(space.getWorkSpace().getPrefWidth());
+        lineHor.setEndX(space.getWorkSpace().getPrefWidth() + 500);
         lineHor.setStartY(y);
         lineHor.setEndY(y);
     }
 
-    public CoordsDrawer getDrawer() {
-        return drawer;
+    public void Draw(WorkSpace space) {
+        space.getWorkSpace().getChildren().add(this);
     }
 
-    public CoordsMover getMover() {
-        return mover;
+    public void Move(double xDelta, double yDelta){
+        setCoords(point.getX() + xDelta,point.getY() + yDelta);
     }
 
-    public CoordsScaler getScaler() {
-        return scaler;
+    public void Scale(double scale, double cursorX, double cursorY) {
+        double x = cursorX - point.getX();
+        double y = cursorY - point.getY();;
+        setCoords(point.getX() + x * scale - x,point.getY() + y * scale - y);
     }
 }
