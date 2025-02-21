@@ -64,6 +64,6 @@ public class MyLine extends Figure {
 
     @Override
     public void Scale(double scale, double cursorX, double cursorY) {
-
+        setCoords();
     }
 }
