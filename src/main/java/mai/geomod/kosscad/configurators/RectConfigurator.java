@@ -1,18 +1,20 @@
 package mai.geomod.kosscad.configurators;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import mai.geomod.kosscad.figures.MyLine;
 import mai.geomod.kosscad.figures.MyPoint;
+import mai.geomod.kosscad.figures.MyRect;
 import mai.geomod.kosscad.util.WorkSpace;
 
-public class LineConfigurator extends BaseConfigurator {
+import java.util.Arrays;
+
+public class RectConfigurator extends BaseConfigurator{
     private EventHandler<MouseEvent> e;
 
-    public LineConfigurator(WorkSpace space) {
+    public RectConfigurator(WorkSpace space) {
         super(space);
     }
 
@@ -30,9 +32,11 @@ public class LineConfigurator extends BaseConfigurator {
                         space.addObject(point);
                         point.Draw(space);
                         if (points.size() >= 2) {
-                            MyLine line = new MyLine(points.get(0), points.get(1));
-                            space.addObject(line);
-                            line.Draw(space);
+                            MyRect rect = new MyRect(points.get(0), points.get(1));
+                            points.addAll(Arrays.asList(rect.getOtherPoints()));
+                            space.addObjects(rect.getOtherPoints());
+                            space.addObject(rect);
+                            rect.Draw(space);
                             points.clear();
                         }
                     }

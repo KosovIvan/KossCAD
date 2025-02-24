@@ -7,7 +7,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
+import mai.geomod.kosscad.configurators.BaseConfigurator;
+import mai.geomod.kosscad.configurators.CircleConfigurator;
 import mai.geomod.kosscad.configurators.LineConfigurator;
+import mai.geomod.kosscad.configurators.RectConfigurator;
 import mai.geomod.kosscad.util.*;
 
 public class Controller {
@@ -44,7 +47,10 @@ public class Controller {
     private Input input;
     private Coords coords;
     private MyCursor cursor;
+    private BaseConfigurator lastConf;
     private LineConfigurator lineConf;
+    private RectConfigurator rectConf;
+    private CircleConfigurator circleConf;
     private double[] startCord = new double[2];
 
     @FXML
@@ -58,6 +64,8 @@ public class Controller {
     private void workSpaceInit() {
         space = new WorkSpace(workSpace);
         lineConf = new LineConfigurator(space);
+        rectConf = new RectConfigurator(space);
+        circleConf = new CircleConfigurator(space);
         space.getWorkSpace().setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.MIDDLE) {
                 startCord[0] = e.getX();
@@ -103,17 +111,20 @@ public class Controller {
 
     @FXML
     private void lineDrawing(ActionEvent event) {
-        lineConf.Activate(lineBtn);
+        if (lastConf != null) lastConf.Cancellation();
+        lastConf = lineConf.Activate(lineBtn);
     }
 
     @FXML
     private void rectDrawing(ActionEvent event) {
-
+        if (lastConf != null) lastConf.Cancellation();
+        lastConf = rectConf.Activate(rectBtn);
     }
 
     @FXML
     private void circleDrawing(ActionEvent event) {
-
+        if (lastConf != null) lastConf.Cancellation();
+        lastConf = circleConf.Activate(circleBtn);
     }
 
     @FXML

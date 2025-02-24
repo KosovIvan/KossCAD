@@ -43,6 +43,11 @@ public class MyPoint extends Figure {
     }
 
     @Override
+    public boolean isHover(double x, double y) {
+        return Math.abs(this.x - x) < 3 && Math.abs(this.y - y) < 3;
+    }
+
+    @Override
     public void Draw(WorkSpace space) {
         space.getWorkSpace().getChildren().add(this);
     }

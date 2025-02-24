@@ -9,6 +9,7 @@ import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.figures.MyPoint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WorkSpace {
@@ -50,6 +51,10 @@ public class WorkSpace {
 
     public void addObject(Group object) {
         objectList.add(object);
+    }
+
+    public void addObjects(Group[] objects) {
+        objectList.addAll(Arrays.asList(objects));
     }
 
     public void removePoints(List<MyPoint> objects) {

@@ -14,13 +14,14 @@ public abstract class BaseConfigurator {
 
     public BaseConfigurator(WorkSpace space) {
         this.space = space;
-        points = new ArrayList<MyPoint>();
+        points = new ArrayList<>();
     }
 
-    public abstract void Activate(ToggleButton btn);
+    public abstract BaseConfigurator Activate(ToggleButton btn);
 
-    public void Canceletion() {
+    public void Cancellation() {
         space.removePoints(points);
+        space.getWorkSpace().getChildren().removeAll(points);
         points.clear();
         space.setLeftMouseClick(null);
     }

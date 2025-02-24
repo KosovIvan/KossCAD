@@ -31,6 +31,7 @@ public abstract class Figure extends Group {
         this.thickness = thickness;
     }
 
+    public abstract boolean isHover(double x, double y);
     public abstract void Draw(WorkSpace space);
     public abstract void Move(double xDelta, double yDelta);
     public abstract void Scale(double scale, double cursorX, double cursorY);

@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import mai.geomod.kosscad.util.WorkSpace;
 
+import static mai.geomod.kosscad.util.Math.PointsDistance;
+
 public class MyLine extends Figure {
     private final MyPoint startPoint;
     private final MyPoint endPoint;
@@ -15,14 +17,7 @@ public class MyLine extends Figure {
     public MyLine(MyPoint startPoint, MyPoint endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
-        line = Build();
-        getChildren().add(line);
-    }
-    public MyLine(MyPoint startPoint, MyPoint endPoint, Color color, int thickness) {
-        super(color, thickness);
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
-        line = Build();
+        Build();
         getChildren().add(line);
     }
 
@@ -34,15 +29,14 @@ public class MyLine extends Figure {
         return endPoint;
     }
 
-    public Line Build() {
-        Line new_line = new Line();
-        new_line.setStartX(startPoint.getX());
-        new_line.setStartY(startPoint.getY());
-        new_line.setEndX(endPoint.getX());
-        new_line.setEndY(endPoint.getY());
-        new_line.setStroke(color);
-        new_line.setStrokeWidth(thickness);
-        return new_line;
+    private void Build() {
+        line = new Line();
+        line.setStartX(startPoint.getX());
+        line.setStartY(startPoint.getY());
+        line.setEndX(endPoint.getX());
+        line.setEndY(endPoint.getY());
+        line.setStroke(color);
+        line.setStrokeWidth(thickness);
     }
 
     public void setCoords() {
@@ -50,6 +44,26 @@ public class MyLine extends Figure {
         line.setStartY(startPoint.getY());
         line.setEndX(endPoint.getX());
         line.setEndY(endPoint.getY());
+    }
+
+    @Override
+    public boolean isHover(double x, double y) {
+        double x1 = startPoint.getX();
+        double y1 = startPoint.getY();
+        double x2 = endPoint.getX();
+        double y2 = endPoint.getY();
+        double eps = 3;
+        double distance = 10;
+
+        if (x >= Math.min(x1, x2) - eps && x <= Math.max(x1, x2) + eps && y >= Math.min(y1, y2) - eps && y <= Math.max(y1, y2) + eps) {
+            double a = PointsDistance(startPoint, endPoint);
+            double b = PointsDistance(startPoint, new MyPoint(x, y));
+            double scalar = (x2 - x1) * (x - x1) + (y2 - y1) * (y - y1);
+            double cos = scalar / (a * b);
+            distance = b * Math.sqrt(1 - cos * cos);
+        }
+
+        return distance < eps;
     }
 
     @Override
