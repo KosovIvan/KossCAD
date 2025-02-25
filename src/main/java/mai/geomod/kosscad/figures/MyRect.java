@@ -1,5 +1,6 @@
 package mai.geomod.kosscad.figures;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import mai.geomod.kosscad.util.WorkSpace;
@@ -47,8 +48,15 @@ public class MyRect extends Figure {
     }
 
     @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+        for (MyLine line : lines) line.setColor(color);
+    }
+
+    @Override
     public boolean isHover(double x, double y) {
-        return true;
+        for (MyLine line : lines) if (line.isHover(x, y)) return true;
+        return false;
     }
 
     @Override

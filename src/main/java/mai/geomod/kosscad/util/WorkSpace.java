@@ -19,6 +19,7 @@ public class WorkSpace {
     private final Pane workSpace;
     private MyPoint center;
     private final List<Group> objectList;
+    private EventHandler<MouseEvent> defaultMouseMovedHandler, defaultMouseClickedHandler, defaultMouseDraggedHandler, defaultMousePressedHandler;
     private EventHandler<MouseEvent> leftMouseClick;
 
     public WorkSpace(Pane workSpace) {
@@ -27,6 +28,13 @@ public class WorkSpace {
         yStart = workSpace.getPrefHeight() / 2;
         scale = 1;
         objectList = new ArrayList<Group>();
+    }
+
+    public void setHandlers(List<EventHandler<MouseEvent>> mouseHandlers) {
+        this.defaultMouseMovedHandler = mouseHandlers.get(0);
+        this.defaultMouseClickedHandler = mouseHandlers.get(1);
+        this.defaultMouseDraggedHandler = mouseHandlers.get(2);
+        this.defaultMousePressedHandler = mouseHandlers.get(3);
     }
 
     public Pane getWorkSpace() {
@@ -91,5 +99,33 @@ public class WorkSpace {
                 coords.Scale(curScale, e.getX(), e.getY());
             }
         }
+    }
+
+    public void scaleByBtn(double curScale) {
+        scale *= curScale;
+        for (Group o: objectList) {
+            if (o instanceof Figure figure) {
+                figure.Scale(curScale, 0, 0);
+            }
+            else if (o instanceof Coords coords) {
+                coords.Scale(curScale, 0, 0);
+            }
+        }
+    }
+
+    public EventHandler<MouseEvent> getDefaultMouseMovedHandler() {
+        return defaultMouseMovedHandler;
+    }
+
+    public EventHandler<MouseEvent> getDefaultMouseClickedHandler() {
+        return defaultMouseClickedHandler;
+    }
+
+    public EventHandler<MouseEvent> getDefaultMouseDraggedHandler() {
+        return defaultMouseDraggedHandler;
+    }
+
+    public EventHandler<MouseEvent> getDefaultMousePressedHandler() {
+        return defaultMousePressedHandler;
     }
 }

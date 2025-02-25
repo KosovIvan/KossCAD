@@ -47,6 +47,14 @@ public class MyLine extends Figure {
     }
 
     @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+        startPoint.setColor(color);
+        endPoint.setColor(color);
+        line.setStroke(color);
+    }
+
+    @Override
     public boolean isHover(double x, double y) {
         double x1 = startPoint.getX();
         double y1 = startPoint.getY();
