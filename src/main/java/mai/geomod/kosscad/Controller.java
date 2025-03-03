@@ -82,6 +82,7 @@ public class Controller {
         coords = new Coords(space, space.getCenter().getX(), space.getCenter().getY());
         coords.Draw(space);
         space.addObject(coords);
+        space.setCoords(coords);
     }
 
     private void cursorInit() {

@@ -49,8 +49,8 @@ public abstract class BaseConfigurator {
         space.getInputTool().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 List<Double> inputs = inputBuilder.readInputValues();
-                double x = (space.getCenter().getX() + inputs.get(0) * space.getScale());
-                double y = (space.getCenter().getY() - inputs.get(1) * space.getScale());
+                double x = (space.getCoords().getPoint().getX() + inputs.get(0) * space.getScale());
+                double y = (space.getCoords().getPoint().getY() - inputs.get(1) * space.getScale());
                 nextAction.handle(x, y);
             }
         });

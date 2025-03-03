@@ -23,9 +23,9 @@ public class PositionData {
 
     public void setPosition(MyPoint pt){
         Label xlabel = (Label)vbox.getChildren().get(0);
-        xlabel.setText("X: " + String.format("%.1f", (pt.getX() - space.getCenter().getX()) * space.getScale()));
+        xlabel.setText("X: " + String.format("%.1f", (pt.getX() - coords.getPoint().getX()) * space.getScale()));
         Label ylabel = (Label)vbox.getChildren().get(1);
-        ylabel.setText("Y: " + String.format("%.1f", (space.getCenter().getY() - pt.getY()) * space.getScale()));
+        ylabel.setText("Y: " + String.format("%.1f", (coords.getPoint().getY() - pt.getY()) * space.getScale()));
     }
 
     public VBox getVbox() {

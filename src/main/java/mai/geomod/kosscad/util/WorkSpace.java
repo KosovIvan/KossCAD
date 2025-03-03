@@ -19,6 +19,7 @@ public class WorkSpace {
     private final Pane workSpace;
     private final ToolBar inputTool;
     private MyPoint center;
+    private Coords coords;
     private final List<Group> objectList;
     private EventHandler<MouseEvent> defaultMouseMovedHandler, defaultMouseClickedHandler, defaultMouseDraggedHandler, defaultMousePressedHandler;
 
@@ -37,6 +38,13 @@ public class WorkSpace {
         this.defaultMouseClickedHandler = mouseHandlers.get(1);
         this.defaultMouseDraggedHandler = mouseHandlers.get(2);
         this.defaultMousePressedHandler = mouseHandlers.get(3);
+    }
+
+    public void setCoords(Coords coords) {
+        this.coords = coords;
+    }
+    public Coords getCoords() {
+        return coords;
     }
 
     public Pane getWorkSpace() {

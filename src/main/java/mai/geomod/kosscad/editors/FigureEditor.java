@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FigureEditor {
-    private final WorkSpace context;
+    private final WorkSpace space;
     private final ToolBar toolBar;
     private final Figure figure;
     private final double scale;
@@ -24,12 +24,12 @@ public class FigureEditor {
     private final InputBuilder inputBuilder;
     private ComboBox<LineType> lineTypes;
 
-    public FigureEditor(WorkSpace context, Figure figure) {
-        this.context = context;
+    public FigureEditor(WorkSpace space, Figure figure) {
+        this.space = space;
         this.figure = figure;
-        this.toolBar = context.getInputTool();
-        this.scale = context.getScale();
-        this.center = context.getCenter();
+        this.toolBar = space.getInputTool();
+        this.scale = space.getScale();
+        this.center = space.getCoords().getPoint();
         inputBuilder = new InputBuilder(toolBar);
     }
 
@@ -70,7 +70,7 @@ public class FigureEditor {
     private void applyInputs() {
         if (figure instanceof ModifiableFigure f) {
             List<Double> values = inputBuilder.readInputValues().stream()
-                    .map(value -> value * context.getScale())
+                    .map(value -> value * space.getScale())
                     .toList();
             f.setValuesFromInputs(values, center);
         }
@@ -78,6 +78,6 @@ public class FigureEditor {
         figure.setThickness(inputBuilder.getThicknessValue());
         LineType lineType = LineType.copy(figure.getLineType());
         lineType.setDashSpace(inputBuilder.getDashSpace());
-        figure.setLineType(lineType, context.getScale());
+        figure.setLineType(lineType, space.getScale());
     }
 }
