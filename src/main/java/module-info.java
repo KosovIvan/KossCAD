@@ -9,4 +9,6 @@ module mai.geomod.kosscad {
     opens mai.geomod.kosscad.figures to javafx.fxml;
     exports mai.geomod.kosscad.util;
     opens mai.geomod.kosscad.util to javafx.fxml;
+    exports mai.geomod.kosscad.utilObjects;
+    opens mai.geomod.kosscad.utilObjects to javafx.fxml;
 }

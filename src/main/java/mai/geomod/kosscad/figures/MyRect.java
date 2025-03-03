@@ -5,11 +5,16 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import mai.geomod.kosscad.util.WorkSpace;
 
-public class MyRect extends Figure {
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MyRect extends ModifiableFigure {
     private final MyPoint[] points = new MyPoint[4];
     private final MyLine[] lines = new MyLine[4];
     private double width;
     private double height;
+    private final MyPoint center;
 
     public MyRect() {
         this(new MyPoint(), new MyPoint());
@@ -20,6 +25,20 @@ public class MyRect extends Figure {
         MyPoint point4 = new MyPoint(point2.getX(), point1.getY());
         width = Math.abs(point2.getX() - point1.getX());
         height = Math.abs(point2.getY() - point1.getY());
+        double x = point1.getX() + (point3.getX() - point1.getX()) / 2;
+        double y = point3.getY() + (point1.getY() - point3.getY()) / 2;
+        center = new MyPoint(x, y);
+        Build(point1, point2, point3, point4);
+    }
+
+    public MyRect(MyPoint center, double width, double height) {
+        MyPoint point1 = new MyPoint(center.getX() - width / 2, center.getY() - height / 2);
+        MyPoint point3 = new MyPoint(center.getX() - width / 2, center.getY() + height / 2);
+        MyPoint point2 = new MyPoint(center.getX() + width / 2, center.getY() + height / 2);
+        MyPoint point4 = new MyPoint(center.getX() + width / 2, center.getY() - height / 2);
+        this.width = width;
+        this.height = height;
+        this.center = center;
         Build(point1, point2, point3, point4);
     }
 
@@ -47,10 +66,39 @@ public class MyRect extends Figure {
         return new MyPoint[]{points[1], points[3]};
     }
 
+    public double getWidth() {
+        return width;
+    }
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public MyPoint getCenter() {
+        return center;
+    }
+
+    public void setCenter(double x, double y) {
+        double deltaX = x - this.center.getX();
+        double deltaY = y - this.center.getY();
+        Move(deltaX, deltaY);
+    }
+
     @Override
     public void setColor(Color color) {
         super.setColor(color);
         for (MyLine line : lines) line.setColor(color);
+    }
+
+    @Override
+    public String getName() {
+        return "ПРЯМОУГОЛЬНИК";
     }
 
     @Override
@@ -72,5 +120,22 @@ public class MyRect extends Figure {
     @Override
     public void Scale(double scale, double cursorX, double cursorY) {
         setCoords();
+    }
+
+    @Override
+    public void setValuesFromInputs(List<Double> values, MyPoint cPoint) {
+        setCenter(values.get(0) + cPoint.getX(), cPoint.getY() - values.get(1));
+        setWidth(values.get(2));
+        setHeight(values.get(3));
+    }
+
+    @Override
+    public Map<String, Double> getValuesForOutput(MyPoint center) {
+        Map<String, Double> map = new LinkedHashMap<>();
+        map.put("Центр [X]", this.center.getX() - center.getX());
+        map.put("Центр [Y]", center.getY() - this.center.getY());
+        map.put("Ширина", width);
+        map.put("Высота", height);
+        return map;
     }
 }

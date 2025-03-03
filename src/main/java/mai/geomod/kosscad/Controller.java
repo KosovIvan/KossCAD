@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseButton;
@@ -17,6 +16,8 @@ import mai.geomod.kosscad.configurators.LineConfigurator;
 import mai.geomod.kosscad.configurators.RectConfigurator;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.util.*;
+import mai.geomod.kosscad.utilObjects.Coords;
+import mai.geomod.kosscad.utilObjects.MyCursor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,26 +34,11 @@ public class Controller {
     @FXML
     private VBox position;
     @FXML
-    private ToggleButton lineBtn;
-    @FXML
-    private ToggleButton rectBtn;
-    @FXML
-    private ToggleButton circleBtn;
-    @FXML
-    private ToggleButton splineBtn;
-    @FXML
-    private ToggleButton arcBtn;
-    @FXML
-    private ToggleButton polygonBtn;
-    @FXML
-    private ToggleButton panBtn;
-    @FXML
-    private ToggleButton rotationBtn;
+    private ToggleButton lineBtn, rectBtn, circleBtn, splineBtn, arcBtn, polygonBtn, panBtn, rotationBtn;
     @FXML
     private ToolBar inputTool;
 
     private WorkSpace space;
-    private Input input;
     private Coords coords;
     private MyCursor cursor;
     private BaseConfigurator lastConf;
@@ -67,7 +53,6 @@ public class Controller {
     @FXML
     public void initialize() {
         workSpaceInit();
-        toolBarInit();
         coordsInit();
         cursorInit();
         defaultMouseHandlersInit();
@@ -79,6 +64,7 @@ public class Controller {
                 defaultMousePressedHandler
         );
         space.setHandlers(mouseHandlers);
+        borderPane.setLeft(null);
 
         lineConf = new LineConfigurator(space);
         rectConf = new RectConfigurator(space);
@@ -86,22 +72,16 @@ public class Controller {
     }
 
     private void workSpaceInit() {
-        space = new WorkSpace(workSpace);
+        space = new WorkSpace(workSpace, inputTool);
         space.getWorkSpace().setOnScroll(e -> {
             space.scale(e);
         });
     }
 
-    private void toolBarInit() {
-        input = new Input(inputTool);
-        input.getToolBar().setManaged(false);
-    }
-
     private void coordsInit(){
-        coords = new Coords(space, space.getXStart(),space.getYStart());
+        coords = new Coords(space, space.getCenter().getX(), space.getCenter().getY());
         coords.Draw(space);
         space.addObject(coords);
-        space.setCenter(coords.getPoint());
     }
 
     private void cursorInit() {
@@ -152,10 +132,6 @@ public class Controller {
         setDefaultMouseDraggedHandler(MouseButton.MIDDLE);
     }
 
-    private boolean isValidFigure(Group figure) {
-        return !(figure instanceof Coords);
-    }
-
     private void resetColors() {
         space.getWorkSpace().getChildren().forEach(elem -> {
             if (elem instanceof Figure figure)
@@ -197,7 +173,7 @@ public class Controller {
 
                 if (selectedFigures.size() == 1 && !rotationBtn.isSelected()) {
                     //new FigureEditor(drawingContext, hoveredFigure).inputBarInit();
-                    //borderPane.setLeft(inputTool);
+                    borderPane.setLeft(inputTool);
                 }
             } else {
                 selectedFigures.clear();
@@ -244,7 +220,7 @@ public class Controller {
         if (button.isSelected()) {
             borderPane.setLeft(inputTool);
             panBtn.setSelected(false);
-            conf.Activate(button);
+            conf.Activate();
         } else {
             conf.Cancellation();
             space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);

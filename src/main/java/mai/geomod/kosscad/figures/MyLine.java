@@ -2,11 +2,16 @@ package mai.geomod.kosscad.figures;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import mai.geomod.kosscad.modes.LineType;
 import mai.geomod.kosscad.util.WorkSpace;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static mai.geomod.kosscad.util.Math.PointsDistance;
 
-public class MyLine extends Figure {
+public class MyLine extends ModifiableFigure {
     private final MyPoint startPoint;
     private final MyPoint endPoint;
     private Line line;
@@ -47,6 +52,13 @@ public class MyLine extends Figure {
     }
 
     @Override
+    public void setLineType(LineType lineType, double scale) {
+        super.setLineType(lineType, scale);
+        line.getStrokeDashArray().clear();
+        line.getStrokeDashArray().addAll(lineType.getPattern(scale));
+    }
+
+    @Override
     public void setColor(Color color) {
         super.setColor(color);
         startPoint.setColor(color);
@@ -75,6 +87,11 @@ public class MyLine extends Figure {
     }
 
     @Override
+    public String getName() {
+        return "ЛИНИЯ";
+    }
+
+    @Override
     public void Draw(WorkSpace space) {
         space.getWorkSpace().getChildren().add(this);
     }
@@ -87,5 +104,24 @@ public class MyLine extends Figure {
     @Override
     public void Scale(double scale, double cursorX, double cursorY) {
         setCoords();
+    }
+
+    @Override
+    public void setValuesFromInputs(List<Double> values, MyPoint center) {
+        startPoint.setX(values.get(0) + center.getX());
+        startPoint.setY(center.getY() - values.get(1));
+        endPoint.setX(values.get(2) + center.getX());
+        endPoint.setY(center.getY() - values.get(3));
+        setCoords();
+    }
+
+    @Override
+    public Map<String, Double> getValuesForOutput(MyPoint center) {
+        Map<String, Double> map = new LinkedHashMap<>();
+        map.put("X1", startPoint.getX() - center.getX());
+        map.put("Y1", center.getY() - startPoint.getY());
+        map.put("X2", endPoint.getX() - center.getX());
+        map.put("Y2", center.getY() - endPoint.getY());
+        return map;
     }
 }

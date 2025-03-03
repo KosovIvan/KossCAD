@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import mai.geomod.kosscad.figures.MyLine;
 import mai.geomod.kosscad.figures.MyPoint;
 import mai.geomod.kosscad.figures.MyRect;
+import mai.geomod.kosscad.modes.DrawingMode;
 import mai.geomod.kosscad.util.WorkSpace;
 
 import java.util.Arrays;
@@ -16,37 +17,35 @@ public class RectConfigurator extends BaseConfigurator{
 
     public RectConfigurator(WorkSpace space) {
         super(space);
+        modes.getItems().addAll(DrawingMode.BY_2_POINTS, DrawingMode.SIDES);
+        modes.setValue(DrawingMode.BY_2_POINTS);
     }
 
     @Override
-    public BaseConfigurator Activate(ToggleButton btn) {
-        if (btn.isSelected()) {
-            e = new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        double x = event.getX();
-                        double y = event.getY();
-                        MyPoint point = new MyPoint(x, y);
-                        points.add(point);
-                        space.addObject(point);
-                        point.Draw(space);
-                        if (points.size() >= 2) {
-                            MyRect rect = new MyRect(points.get(0), points.get(1));
-                            points.addAll(Arrays.asList(rect.getOtherPoints()));
-                            space.addObjects(rect.getOtherPoints());
-                            space.addObject(rect);
-                            rect.Draw(space);
-                            points.clear();
-                        }
+    public BaseConfigurator Activate() {
+        e = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    double x = event.getX();
+                    double y = event.getY();
+                    MyPoint point = new MyPoint(x, y);
+                    points.add(point);
+                    space.addObject(point);
+                    point.Draw(space);
+                    if (points.size() >= 2) {
+                        MyRect rect = new MyRect(points.get(0), points.get(1));
+                        points.addAll(Arrays.asList(rect.getOtherPoints()));
+                        space.addObjects(rect.getOtherPoints());
+                        space.addObject(rect);
+                        rect.Draw(space);
+                        points.clear();
                     }
                 }
-            };
-            space.getWorkSpace().setOnMouseClicked(e);
-            return this;
-        }
-        else Cancellation();
-        return null;
+            }
+        };
+        space.getWorkSpace().setOnMouseClicked(e);
+        return this;
     }
 
     @Override

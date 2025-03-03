@@ -4,7 +4,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import mai.geomod.kosscad.util.WorkSpace;
 
-public class MyPoint extends Figure {
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MyPoint extends ModifiableFigure {
     private double x;
     private double y;
     private final Circle circle;
@@ -43,6 +47,11 @@ public class MyPoint extends Figure {
     }
 
     @Override
+    public String getName() {
+        return "ТОЧКА";
+    }
+
+    @Override
     public boolean isHover(double x, double y) {
         return Math.abs(this.x - x) < 3 && Math.abs(this.y - y) < 3;
     }
@@ -64,5 +73,19 @@ public class MyPoint extends Figure {
         double yDif = cursorY - y;
         setX(x + xDif * scale - xDif);
         setY(y + yDif * scale - yDif);
+    }
+
+    @Override
+    public void setValuesFromInputs(List<Double> values, MyPoint center) {
+        setX(values.get(0) + center.getX());
+        setY(center.getY() - values.get(1));
+    }
+
+    @Override
+    public Map<String, Double> getValuesForOutput(MyPoint center) {
+        Map<String, Double> map = new LinkedHashMap<>();
+        map.put("X", x - center.getX());
+        map.put("Y", center.getY() - y);
+        return map;
     }
 }

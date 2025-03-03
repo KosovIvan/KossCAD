@@ -2,30 +2,32 @@ package mai.geomod.kosscad.util;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.figures.MyPoint;
+import mai.geomod.kosscad.utilObjects.Coords;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class WorkSpace {
-    private final double xStart;
-    private final double yStart;
     private double scale;
     private final Pane workSpace;
+    private final ToolBar inputTool;
     private MyPoint center;
     private final List<Group> objectList;
     private EventHandler<MouseEvent> defaultMouseMovedHandler, defaultMouseClickedHandler, defaultMouseDraggedHandler, defaultMousePressedHandler;
-    private EventHandler<MouseEvent> leftMouseClick;
 
-    public WorkSpace(Pane workSpace) {
+    public WorkSpace(Pane workSpace, ToolBar inputTool) {
         this.workSpace = workSpace;
-        xStart = workSpace.getPrefWidth() / 2;
-        yStart = workSpace.getPrefHeight() / 2;
+        this.inputTool = inputTool;
+        double xStart = workSpace.getPrefWidth() / 2;
+        double yStart = workSpace.getPrefHeight() / 2;
+        center = new MyPoint(xStart, yStart);
         scale = 1;
         objectList = new ArrayList<Group>();
     }
@@ -41,21 +43,11 @@ public class WorkSpace {
         return workSpace;
     }
 
-    public double getXStart() {
-        return xStart;
+    public ToolBar getInputTool() {
+        return inputTool;
     }
 
-    public double getYStart() {
-        return yStart;
-    }
-
-    public MyPoint getCenter() {
-        return center;
-    }
-
-    public void setCenter(MyPoint center) {
-        this.center = center;
-    }
+    public MyPoint getCenter() { return center; }
 
     public void addObject(Group object) {
         objectList.add(object);
@@ -71,10 +63,6 @@ public class WorkSpace {
 
     public double getScale() {
         return scale;
-    }
-
-    public void setLeftMouseClick(EventHandler<MouseEvent> leftMouseClick) {
-        this.leftMouseClick = leftMouseClick;
     }
 
     public void pan(double xDelta, double yDelta) {
@@ -94,6 +82,7 @@ public class WorkSpace {
         for (Group o: objectList) {
             if (o instanceof Figure figure) {
                 figure.Scale(curScale, e.getX(), e.getY());
+                figure.setLineType(figure.getLineType(), scale);
             }
             else if (o instanceof Coords coords) {
                 coords.Scale(curScale, e.getX(), e.getY());
@@ -125,7 +114,5 @@ public class WorkSpace {
         return defaultMouseDraggedHandler;
     }
 
-    public EventHandler<MouseEvent> getDefaultMousePressedHandler() {
-        return defaultMousePressedHandler;
-    }
+    public EventHandler<MouseEvent> getDefaultMousePressedHandler() { return defaultMousePressedHandler; }
 }

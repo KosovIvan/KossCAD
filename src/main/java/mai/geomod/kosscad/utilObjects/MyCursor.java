@@ -1,10 +1,11 @@
-package mai.geomod.kosscad.util;
+package mai.geomod.kosscad.utilObjects;
 
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import mai.geomod.kosscad.figures.MyPoint;
+import mai.geomod.kosscad.util.WorkSpace;
 
 public class MyCursor extends Group {
     private final Line lineVert;
