@@ -50,9 +50,13 @@ public class RectConfigurator extends BaseConfigurator{
             space.addObject(rect);
             rect.Draw(space);
             points.clear();
+            this.point = null;
             inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
         }
-        else inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
+        else {
+            this.point = point;
+            inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
+        }
     }
 
     private void drawSides() {

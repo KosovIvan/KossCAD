@@ -46,9 +46,13 @@ public class LineConfigurator extends BaseConfigurator {
             space.addObject(line);
             line.Draw(space);
             points.clear();
+            this.point = null;
             inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
         }
-        else inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
+        else {
+            this.point = point;
+            inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
+        }
     }
 
     private void drawAngleLength() {

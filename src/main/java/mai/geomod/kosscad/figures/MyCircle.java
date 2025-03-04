@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static mai.geomod.kosscad.util.Math.PointsDistance;
+import static mai.geomod.kosscad.util.Math.getCenterAndRadius;
 
 public class MyCircle extends ModifiableFigure{
     private MyPoint cPoint;
@@ -22,7 +23,20 @@ public class MyCircle extends ModifiableFigure{
         this.cPoint = cPoint;
         this.r = PointsDistance(cPoint, vertex);
         Build();
-        getChildren().add(circle);
+    }
+
+    public MyCircle(MyPoint center, double radius) {
+        id = ++counter;
+        this.cPoint = center;
+        this.r = radius;
+        Build();
+    }
+
+    public MyCircle(MyPoint point1, MyPoint point2, MyPoint point3) {
+        double[] values = getCenterAndRadius(point1, point2, point3);
+        cPoint = new MyPoint(values[0], values[1]);
+        r = values[2];
+        Build();
     }
 
     private void Build() {
@@ -33,6 +47,8 @@ public class MyCircle extends ModifiableFigure{
         circle.setStrokeWidth(thickness);
         circle.setStroke(color);
         circle.setFill(null);
+
+        getChildren().add(circle);
     }
 
     public void setCoords() {
@@ -46,10 +62,15 @@ public class MyCircle extends ModifiableFigure{
         circle.setRadius(r);
     }
 
-    public void setCenter(MyPoint center) {
-        cPoint = center;
-        circle.setCenterX(center.getX());
-        circle.setCenterY(center.getY());
+    public MyPoint getCenter() {
+        return cPoint;
+    }
+
+    public void setCenter(double x, double y) {
+        cPoint.setX(x);
+        cPoint.setY(y);
+        circle.setCenterX(x);
+        circle.setCenterY(y);
     }
 
     public void setRadius(double r) {
@@ -109,7 +130,7 @@ public class MyCircle extends ModifiableFigure{
     public void setValuesFromInputs(List<Double> values, MyPoint center) {
         double x = values.get(0) + center.getX();
         double y = center.getY() - values.get(1);
-        setCenter(new MyPoint(x, y));
+        setCenter(x, y);
         setRadius(values.get(2));
     }
 
