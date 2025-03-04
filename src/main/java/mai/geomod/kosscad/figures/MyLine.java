@@ -15,15 +15,25 @@ public class MyLine extends ModifiableFigure {
     private final MyPoint startPoint;
     private final MyPoint endPoint;
     private Line line;
+    private static long counter = 0;
 
     public MyLine() {
         this(new MyPoint(), new MyPoint());
     }
     public MyLine(MyPoint startPoint, MyPoint endPoint) {
+        id = ++counter;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         Build();
-        getChildren().add(line);
+    }
+    public MyLine(MyPoint point1, double angle, double length) {
+        id = ++counter;
+        double x = point1.getX() + Math.cos(Math.toRadians(-angle)) * length;
+        double y = point1.getY() + Math.sin(Math.toRadians(-angle)) * length;
+        MyPoint point2 = new MyPoint(x, y);
+        this.startPoint = point1;
+        this.endPoint = point2;
+        Build();
     }
 
     public MyPoint getStartPoint() {
@@ -42,6 +52,7 @@ public class MyLine extends ModifiableFigure {
         line.setEndY(endPoint.getY());
         line.setStroke(color);
         line.setStrokeWidth(thickness);
+        getChildren().add(line);
     }
 
     public void setCoords() {
@@ -52,18 +63,26 @@ public class MyLine extends ModifiableFigure {
     }
 
     @Override
-    public void setLineType(LineType lineType, double scale) {
-        super.setLineType(lineType, scale);
-        line.getStrokeDashArray().clear();
-        line.getStrokeDashArray().addAll(lineType.getPattern(scale));
-    }
-
-    @Override
     public void setColor(Color color) {
         super.setColor(color);
         startPoint.setColor(color);
         endPoint.setColor(color);
         line.setStroke(color);
+    }
+
+    @Override
+    public void setThickness(double thickness) {
+        super.setThickness(thickness);
+        line.setStrokeWidth(thickness);
+        startPoint.setThickness(thickness + 1);
+        endPoint.setThickness(thickness + 1);
+    }
+
+    @Override
+    public void setLineType(LineType lineType, double scale) {
+        super.setLineType(lineType, scale);
+        line.getStrokeDashArray().clear();
+        line.getStrokeDashArray().addAll(lineType.getPattern(scale));
     }
 
     @Override
@@ -88,7 +107,7 @@ public class MyLine extends ModifiableFigure {
 
     @Override
     public String getName() {
-        return "ЛИНИЯ";
+        return "ЛИНИЯ_" + id;
     }
 
     @Override

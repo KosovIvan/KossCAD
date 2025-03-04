@@ -65,8 +65,8 @@ public class Coords extends Group {
     }
 
     public void Scale(double scale, double cursorX, double cursorY) {
-        double x = cursorX - point.getX();
-        double y = cursorY - point.getY();;
-        setCoords(point.getX() + x * scale - x,point.getY() + y * scale - y);
+        double x = point.getX() - cursorX;
+        double y = cursorY - point.getY();
+        setCoords(point.getX() + x * scale - x,point.getY() - y * scale + y);
     }
 }

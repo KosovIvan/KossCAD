@@ -9,6 +9,7 @@ public abstract class Figure extends Group {
     protected Color color;
     protected double thickness;
     protected LineType lineType;
+    protected long id;
 
     public Figure() {
         color = Color.WHITE;

@@ -14,6 +14,7 @@ import mai.geomod.kosscad.configurators.BaseConfigurator;
 import mai.geomod.kosscad.configurators.CircleConfigurator;
 import mai.geomod.kosscad.configurators.LineConfigurator;
 import mai.geomod.kosscad.configurators.RectConfigurator;
+import mai.geomod.kosscad.editors.FigureEditor;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.util.*;
 import mai.geomod.kosscad.utilObjects.Coords;
@@ -173,10 +174,11 @@ public class Controller {
                 selectedFigures.forEach(figure -> figure.setColor(Color.ORANGE));
 
                 if (selectedFigures.size() == 1 && !rotationBtn.isSelected()) {
-                    //new FigureEditor(drawingContext, hoveredFigure).inputBarInit();
+                    new FigureEditor(space, hoveredFigure).inputBarInit();
                     borderPane.setLeft(inputTool);
                 }
-            } else {
+            }
+            else {
                 selectedFigures.clear();
                 space.getWorkSpace().setOnMouseDragged(defaultMouseDraggedHandler);
             }
@@ -221,7 +223,7 @@ public class Controller {
         if (button.isSelected()) {
             borderPane.setLeft(inputTool);
             panBtn.setSelected(false);
-            conf.Activate();
+            lastConf = conf.Activate();
         } else {
             conf.Cancellation();
             space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
@@ -246,12 +248,12 @@ public class Controller {
 
     @FXML
     private void zoomPlus(ActionEvent event) {
-        space.scaleByBtn(0.9);
+        space.scaleByBtn(1.1);
     }
 
     @FXML
     private void zoomMinus(ActionEvent event) {
-        space.scaleByBtn(1.1);
+        space.scaleByBtn(0.9);
     }
 
     @FXML

@@ -2,6 +2,7 @@ package mai.geomod.kosscad.figures;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import mai.geomod.kosscad.modes.LineType;
 import mai.geomod.kosscad.util.Math;
 import mai.geomod.kosscad.util.WorkSpace;
 
@@ -14,8 +15,10 @@ public class MyCircle extends ModifiableFigure{
     private MyPoint cPoint;
     private double r;
     private Circle circle;
+    private static long counter = 0;
 
     public MyCircle(MyPoint cPoint, MyPoint vertex) {
+        id = ++counter;
         this.cPoint = cPoint;
         this.r = PointsDistance(cPoint, vertex);
         Build();
@@ -39,7 +42,6 @@ public class MyCircle extends ModifiableFigure{
 
     public void setCoords(double scale) {
         setCoords();
-        scale = (scale == 0.9) ? 1.1 : 0.9;
         r *= scale;
         circle.setRadius(r);
     }
@@ -63,8 +65,22 @@ public class MyCircle extends ModifiableFigure{
     }
 
     @Override
+    public void setThickness(double thickness) {
+        super.setThickness(thickness);
+        cPoint.setThickness(thickness);
+        circle.setStrokeWidth(thickness);
+    }
+
+    @Override
+    public void setLineType(LineType lineType, double scale) {
+        super.setLineType(lineType, scale);
+        circle.getStrokeDashArray().clear();
+        circle.getStrokeDashArray().addAll(lineType.getPattern(scale));
+    }
+
+    @Override
     public String getName() {
-        return "КРУГ";
+        return "КРУГ_" + id;
     }
 
     @Override

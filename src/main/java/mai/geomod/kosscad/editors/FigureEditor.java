@@ -37,8 +37,6 @@ public class FigureEditor {
         if (figure instanceof ModifiableFigure)
             showCoords();
 
-        //if (figure instanceof MySpline) new SplineEditor(context, figure).pointMovement();
-
         showLineType();
 
         Button applyBtn = inputBuilder.addApplyButton();

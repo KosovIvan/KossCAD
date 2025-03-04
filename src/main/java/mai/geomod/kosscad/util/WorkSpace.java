@@ -85,7 +85,7 @@ public class WorkSpace {
     }
 
     public void scale(ScrollEvent e) {
-        double curScale = (e.getDeltaY() > 0) ? 0.9 : 1.1;
+        double curScale = (e.getDeltaY() > 0) ? 1.1 : 0.9;
         scale *= curScale;
         for (Group o: objectList) {
             if (o instanceof Figure figure) {

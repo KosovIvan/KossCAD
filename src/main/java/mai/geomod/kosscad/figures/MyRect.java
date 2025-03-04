@@ -3,6 +3,7 @@ package mai.geomod.kosscad.figures;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import mai.geomod.kosscad.modes.LineType;
 import mai.geomod.kosscad.util.WorkSpace;
 
 import java.util.LinkedHashMap;
@@ -15,12 +16,14 @@ public class MyRect extends ModifiableFigure {
     private double width;
     private double height;
     private final MyPoint center;
+    private static long counter = 0;
 
     public MyRect() {
         this(new MyPoint(), new MyPoint());
     }
 
     public MyRect(MyPoint point1, MyPoint point2) {
+        id = ++counter;
         MyPoint point3 = new MyPoint(point1.getX(), point2.getY());
         MyPoint point4 = new MyPoint(point2.getX(), point1.getY());
         width = Math.abs(point2.getX() - point1.getX());
@@ -97,8 +100,22 @@ public class MyRect extends ModifiableFigure {
     }
 
     @Override
+    public void setThickness(double thickness) {
+        super.setThickness(thickness);
+        for (MyLine line : lines)
+            line.setThickness(thickness);
+    }
+
+    @Override
+    public void setLineType(LineType lineType, double scale) {
+        super.setLineType(lineType, scale);
+        for (MyLine line : lines)
+            line.setLineType(lineType, scale);
+    }
+
+    @Override
     public String getName() {
-        return "ПРЯМОУГОЛЬНИК";
+        return "ПРЯМОУГОЛЬНИК_" + id;
     }
 
     @Override

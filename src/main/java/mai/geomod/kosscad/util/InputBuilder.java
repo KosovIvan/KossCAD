@@ -25,6 +25,7 @@ public class InputBuilder {
     public InputBuilder(ToolBar toolBar) {
         this.toolBar = toolBar;
         label = new Label();
+        label.setStyle("-fx-text-fill: #D3DAE4;");
         coordsPrompts = new ArrayList<>();
         coordsInputs = new ArrayList<>();
         lineTypePrompts = new ArrayList<>();
@@ -37,11 +38,13 @@ public class InputBuilder {
         coordsPrompts.clear();
         coordsInputs.clear();
 
-        this.label.setText(label + ":");
         for (String text : prompts) {
-            coordsPrompts.add(new Label(text + ":"));
+            Label new_label = new Label(text + ":");
+            new_label.setStyle("-fx-text-fill: #D3DAE4;");
+            coordsPrompts.add(new_label);
             coordsInputs.add(new TextField());
         }
+        this.label.setText(label + ":");
 
         update();
     }
@@ -50,12 +53,14 @@ public class InputBuilder {
         coordsPrompts.clear();
         coordsInputs.clear();
 
-        this.label.setText(label + ":");
         for (Map.Entry<String, Double> entry : prompts.entrySet()) {
-            coordsPrompts.add(new Label(entry.getKey() + ":"));
+            Label new_label = new Label(entry.getKey() + ":");
+            new_label.setStyle("-fx-text-fill: #D3DAE4;");
+            coordsPrompts.add(new_label);
             String value = String.format("%.1f", entry.getValue() / scale);
             coordsInputs.add(new TextField(value.replace(",", ".")));
         }
+        this.label.setText(label + ":");
 
         update();
     }
@@ -72,13 +77,19 @@ public class InputBuilder {
             lineTypes = new ComboBox<>();
 
         this.thickness = new TextField(String.valueOf(thickness));
-        lineTypePrompts.add(new Label("Толщина линии:"));
+        Label thic_label = new Label("Толщина линии:");
+        thic_label.setStyle("-fx-text-fill: #D3DAE4;");
+        lineTypePrompts.add(thic_label);
         lineTypeInputs.add(this.thickness);
         toolBar.getItems().add(this.thickness);
 
         if (!dashSpace.isEmpty()) {
-            lineTypePrompts.add(new Label("Длина штриха:"));
-            lineTypePrompts.add(new Label("Длина пробела:"));
+            Label dash_label = new Label("Длина штриха:");
+            dash_label.setStyle("-fx-text-fill: #D3DAE4;");
+            lineTypePrompts.add(dash_label);
+            Label space_label = new Label("Длина пробела:");
+            space_label.setStyle("-fx-text-fill: #D3DAE4;");
+            lineTypePrompts.add(space_label);
             lineTypeInputs.add(new TextField(String.valueOf(dashSpace.get(0))));
             lineTypeInputs.add(new TextField(String.valueOf(dashSpace.get(1))));
         }
@@ -104,9 +115,9 @@ public class InputBuilder {
     private void update() {
         toolBar.getItems().clear();
 
-        toolBar.getItems().add(label);
         if (!modes.getItems().isEmpty())
             toolBar.getItems().add(modes);
+        toolBar.getItems().add(label);
 
         setStyle(coordsPrompts, coordsInputs);
 

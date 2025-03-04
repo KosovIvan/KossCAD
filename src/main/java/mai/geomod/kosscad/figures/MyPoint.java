@@ -47,6 +47,12 @@ public class MyPoint extends ModifiableFigure {
     }
 
     @Override
+    public void setThickness(double thickness) {
+        super.setThickness(thickness);
+        circle.setRadius(thickness);
+    }
+
+    @Override
     public String getName() {
         return "ТОЧКА";
     }
@@ -69,10 +75,10 @@ public class MyPoint extends ModifiableFigure {
 
     @Override
     public void Scale(double scale, double cursorX, double cursorY) {
-        double xDif = cursorX - x;
+        double xDif = x - cursorX;
         double yDif = cursorY - y;
         setX(x + xDif * scale - xDif);
-        setY(y + yDif * scale - yDif);
+        setY(y - yDif * scale + yDif);
     }
 
     @Override

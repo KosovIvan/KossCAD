@@ -14,6 +14,7 @@ import mai.geomod.kosscad.util.WorkSpace;
 import java.util.List;
 
 public class LineConfigurator extends BaseConfigurator {
+    private MyPoint point;
 
     public LineConfigurator(WorkSpace space) {
         super(space);
@@ -29,7 +30,7 @@ public class LineConfigurator extends BaseConfigurator {
                 setInputHandlers(this::drawPoints);
                 break;
             case ANGLE_LENGTH:
-                drawByAngleAndLength();
+                drawAngleLength();
                 break;
         }
         return this;
@@ -50,29 +51,37 @@ public class LineConfigurator extends BaseConfigurator {
         else inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
     }
 
-    private void drawByAngleAndLength() {
+    private void drawAngleLength() {
         inputBuilder.setPrompts("Укажите координаты первой точки", "X", "Y");
-        /*
-        toolBar.setOnKeyPressed(e -> {
+        space.getInputTool().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 List<Double> inputs = inputBuilder.readInputValues();
-                if (firstPoint != null) {
+                if (point != null) {
                     double angle = inputs.get(0);
-                    double length = inputs.get(1) * drawingContext.getScale();
-                    Line line = new Line(firstPoint, angle, length);
-                    workspace.getChildren().add(line);
-                    firstPoint = null;
+                    double length = inputs.get(1) * space.getScale();
+                    double x = point.getX() + Math.cos(Math.toRadians(-angle)) * length;
+                    double y = point.getY() + Math.sin(Math.toRadians(-angle)) * length;
+                    MyPoint point2 = new MyPoint(x, y);
+                    points.add(point2);
+                    space.addObject(point2);
+                    point2.Draw(space);
+                    MyLine line = new MyLine(point, point2);
+                    space.addObject(line);
+                    line.Draw(space);
+                    points.clear();
+                    point = null;
                     inputBuilder.setPrompts("Укажите координаты первой точки", "X", "Y");
                 } else {
-                    double x = coordsCenter.getX() + inputs.get(0) * drawingContext.getScale();
-                    double y = coordsCenter.getY() - inputs.get(1) * drawingContext.getScale();
-                    firstPoint = new Point(x, y);
-                    workspace.getChildren().add(firstPoint);
+                    double x = space.getCoords().getPoint().getX() + inputs.get(0) * space.getScale();
+                    double y = space.getCoords().getPoint().getY() - inputs.get(1) * space.getScale();
+                    point = new MyPoint(x, y);
+                    points.add(point);
+                    space.addObject(point);
+                    point.Draw(space);
                     inputBuilder.setPrompts("Укажите угол и длину линии", "Угол", "Длина");
                 }
             }
         });
-        */
         space.getWorkSpace().setOnMouseClicked(null);
     }
 
@@ -80,5 +89,6 @@ public class LineConfigurator extends BaseConfigurator {
     public void Cancellation() {
         super.Cancellation();
         space.getWorkSpace().setOnMouseClicked(null);
+        point = null;
     }
 }
