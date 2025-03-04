@@ -40,6 +40,13 @@ public class MyPoint extends ModifiableFigure {
         circle.setCenterY(y);
     }
 
+    public void setCoords(double x, double y) {
+        this.x = x;
+        this.y = y;
+        circle.setCenterX(x);
+        circle.setCenterY(y);
+    }
+
     @Override
     public void setColor(Color color) {
         super.setColor(color);

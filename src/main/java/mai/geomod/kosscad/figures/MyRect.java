@@ -1,14 +1,14 @@
 package mai.geomod.kosscad.figures;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import mai.geomod.kosscad.modes.LineType;
 import mai.geomod.kosscad.util.WorkSpace;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static mai.geomod.kosscad.util.Math.getMiddlePoint;
 
 public class MyRect extends ModifiableFigure {
     private final MyPoint[] points = new MyPoint[4];
@@ -35,6 +35,7 @@ public class MyRect extends ModifiableFigure {
     }
 
     public MyRect(MyPoint center, double width, double height) {
+        id = ++counter;
         MyPoint point1 = new MyPoint(center.getX() - width / 2, center.getY() - height / 2);
         MyPoint point3 = new MyPoint(center.getX() - width / 2, center.getY() + height / 2);
         MyPoint point2 = new MyPoint(center.getX() + width / 2, center.getY() + height / 2);
@@ -65,22 +66,19 @@ public class MyRect extends ModifiableFigure {
         }
     }
 
-    public MyPoint[] getOtherPoints() {
+    public MyPoint[] get2OtherPoints() {
         return new MyPoint[]{points[1], points[3]};
+    }
+    public MyPoint[] getAllPoints() {
+        return points;
     }
 
     public double getWidth() {
         return width;
     }
-    public void setWidth(double width) {
-        this.width = width;
-    }
 
     public double getHeight() {
         return height;
-    }
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     public MyPoint getCenter() {
@@ -90,6 +88,7 @@ public class MyRect extends ModifiableFigure {
     public void setCenter(double x, double y) {
         double deltaX = x - this.center.getX();
         double deltaY = y - this.center.getY();
+        for (MyPoint p : points) p.Move(deltaX, deltaY);
         Move(deltaX, deltaY);
     }
 
@@ -131,12 +130,48 @@ public class MyRect extends ModifiableFigure {
 
     @Override
     public void Move(double xDelta, double yDelta) {
+        center.Move(xDelta, yDelta);
         setCoords();
     }
 
     @Override
     public void Scale(double scale, double cursorX, double cursorY) {
+        center.Scale(scale, cursorX, cursorY);
+        width *= scale;
+        height *= scale;
         setCoords();
+    }
+
+    private void setWidth(double width) {
+        double scale = width / this.width;
+        this.width = width;
+        MyPoint middlePoint1 = getMiddlePoint(points[0], points[3]);
+        MyPoint middlePoint2 = getMiddlePoint(points[1], points[2]);
+        calculateCoords(scale, middlePoint1, middlePoint2, middlePoint2.getX(), middlePoint2.getY(), middlePoint1.getX(), middlePoint1.getY());
+    }
+
+    private void setHeight(double height) {
+        double scale = height / this.height;
+        this.height = height;
+        MyPoint middlePoint1 = getMiddlePoint(points[0], points[1]);
+        MyPoint middlePoint2 = getMiddlePoint(points[2], points[3]);
+        calculateCoords(scale, middlePoint1, middlePoint2, middlePoint1.getX(), middlePoint1.getY(), middlePoint2.getX(), middlePoint2.getY());
+    }
+
+    private void calculateCoords(double scale, MyPoint middlePoint1, MyPoint middlePoint2, double x, double y, double x4, double y4) {
+        double x0 = (points[0].getX() - middlePoint1.getX()) * scale + middlePoint1.getX();
+        double y0 = (points[0].getY() - middlePoint1.getY()) * scale + middlePoint1.getY();
+        double x1 = (points[1].getX() - x) * scale + x;
+        double y1 = (points[1].getY() - y) * scale + y;
+        double x2 = (points[2].getX() - middlePoint2.getX()) * scale + middlePoint2.getX();
+        double y2 = (points[2].getY() - middlePoint2.getY()) * scale + middlePoint2.getY();
+        double x3 = (points[3].getX() - x4) * scale + x4;
+        double y3 = (points[3].getY() - y4) * scale + y4;
+
+        points[0].setCoords(x0, y0);
+        points[1].setCoords(x1, y1);
+        points[2].setCoords(x2, y2);
+        points[3].setCoords(x3, y3);
     }
 
     @Override
@@ -144,13 +179,14 @@ public class MyRect extends ModifiableFigure {
         setCenter(values.get(0) + cPoint.getX(), cPoint.getY() - values.get(1));
         setWidth(values.get(2));
         setHeight(values.get(3));
+        setCoords();
     }
 
     @Override
     public Map<String, Double> getValuesForOutput(MyPoint center) {
         Map<String, Double> map = new LinkedHashMap<>();
-        map.put("Центр [X]", this.center.getX() - center.getX());
-        map.put("Центр [Y]", center.getY() - this.center.getY());
+        map.put("Центр X", this.center.getX() - center.getX());
+        map.put("Центр Y", center.getY() - this.center.getY());
         map.put("Ширина", width);
         map.put("Высота", height);
         return map;

@@ -60,14 +60,12 @@ public class WorkSpace {
     public void addObject(Group object) {
         objectList.add(object);
     }
-
     public void addObjects(Group[] objects) {
         objectList.addAll(Arrays.asList(objects));
     }
 
-    public void removePoints(List<MyPoint> objects) {
-        objectList.removeAll(objects);
-    }
+    public void removeObject(Group object) { objectList.remove(object); }
+    public void removePoints(List<MyPoint> objects) { objectList.removeAll(objects); }
 
     public double getScale() {
         return scale;

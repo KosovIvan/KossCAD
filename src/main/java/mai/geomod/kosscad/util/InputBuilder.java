@@ -147,7 +147,7 @@ public class InputBuilder {
     }
 
     public Button addApplyButton() {
-        applyBtn = new Button("Готово");
+        applyBtn = new Button("Применить");
         toolBar.getItems().addLast(applyBtn);
         return applyBtn;
     }

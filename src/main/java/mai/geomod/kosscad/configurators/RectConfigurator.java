@@ -2,6 +2,7 @@ package mai.geomod.kosscad.configurators;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import mai.geomod.kosscad.figures.MyLine;
@@ -11,9 +12,10 @@ import mai.geomod.kosscad.modes.DrawingMode;
 import mai.geomod.kosscad.util.WorkSpace;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class RectConfigurator extends BaseConfigurator{
-    private EventHandler<MouseEvent> e;
+    private MyPoint point;
 
     public RectConfigurator(WorkSpace space) {
         super(space);
@@ -23,35 +25,71 @@ public class RectConfigurator extends BaseConfigurator{
 
     @Override
     public BaseConfigurator Activate() {
-        e = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    double x = event.getX();
-                    double y = event.getY();
-                    MyPoint point = new MyPoint(x, y);
+        switch (modes.getValue()) {
+            case BY_2_POINTS:
+                inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
+                setInputHandlers(this::drawPoints);
+                break;
+            case SIDES:
+                drawSides();
+                break;
+        }
+        return this;
+    }
+
+
+    private void drawPoints(double x, double y) {
+        MyPoint point = new MyPoint(x, y);
+        points.add(point);
+        space.addObject(point);
+        point.Draw(space);
+        if (points.size() >= 2) {
+            MyRect rect = new MyRect(points.get(0), points.get(1));
+            points.addAll(Arrays.asList(rect.get2OtherPoints()));
+            space.addObjects(rect.get2OtherPoints());
+            space.addObject(rect);
+            rect.Draw(space);
+            points.clear();
+            inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
+        }
+        else inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
+    }
+
+    private void drawSides() {
+        inputBuilder.setPrompts("Укажите координаты центральной точки", "X", "Y");
+        space.getInputTool().setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                List<Double> inputs = inputBuilder.readInputValues();
+                double param1 = inputs.get(0) * space.getScale();
+                double param2 = inputs.get(1) * space.getScale();
+                if (point != null) {
+                    space.removeObject(point);
+                    space.getWorkSpace().getChildren().remove(point);
+                    MyRect rect = new MyRect(point, param1, param2);
+                    space.addObjects(rect.getAllPoints());
+                    space.addObject(rect);
+                    rect.Draw(space);
+                    points.clear();
+                    point = null;
+                    inputBuilder.setPrompts("Укажите координаты центральной точки", "Y", "X");
+                } else {
+                    double x = space.getCoords().getPoint().getX() + param1;
+                    double y = space.getCoords().getPoint().getY() - param2;
+                    point = new MyPoint(x, y);
                     points.add(point);
                     space.addObject(point);
                     point.Draw(space);
-                    if (points.size() >= 2) {
-                        MyRect rect = new MyRect(points.get(0), points.get(1));
-                        points.addAll(Arrays.asList(rect.getOtherPoints()));
-                        space.addObjects(rect.getOtherPoints());
-                        space.addObject(rect);
-                        rect.Draw(space);
-                        points.clear();
-                    }
+                    inputBuilder.setPrompts("Укажите размеры сторон", "Ширина", "Высота");
                 }
             }
-        };
-        space.getWorkSpace().setOnMouseClicked(e);
-        return this;
+        });
+        space.getWorkSpace().setOnMouseClicked(null);
     }
 
     @Override
     public void Cancellation() {
         super.Cancellation();
         space.getWorkSpace().setOnMouseClicked(null);
-        e = null;
+        point = null;
     }
 }
