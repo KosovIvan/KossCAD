@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RectConfigurator extends BaseConfigurator{
-    private MyPoint point;
 
     public RectConfigurator(WorkSpace space) {
         super(space);
@@ -50,11 +49,9 @@ public class RectConfigurator extends BaseConfigurator{
             space.addObject(rect);
             rect.Draw(space);
             points.clear();
-            this.point = null;
             inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
         }
         else {
-            this.point = point;
             inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
         }
     }
@@ -66,20 +63,19 @@ public class RectConfigurator extends BaseConfigurator{
                 List<Double> inputs = inputBuilder.readInputValues();
                 double param1 = inputs.get(0) * space.getScale();
                 double param2 = inputs.get(1) * space.getScale();
-                if (point != null) {
-                    space.removeObject(point);
-                    space.getWorkSpace().getChildren().remove(point);
-                    MyRect rect = new MyRect(point, param1, param2);
+                if (!points.isEmpty()) {
+                    space.removeObject(points.getFirst());
+                    space.getWorkSpace().getChildren().remove(points.getFirst());
+                    MyRect rect = new MyRect(points.getFirst(), param1, param2);
                     space.addObjects(rect.getAllPoints());
                     space.addObject(rect);
                     rect.Draw(space);
                     points.clear();
-                    point = null;
-                    inputBuilder.setPrompts("Укажите координаты центральной точки", "Y", "X");
+                    inputBuilder.setPrompts("Укажите координаты центральной точки", "X", "Y");
                 } else {
                     double x = space.getCoords().getPoint().getX() + param1;
                     double y = space.getCoords().getPoint().getY() - param2;
-                    point = new MyPoint(x, y);
+                    MyPoint point = new MyPoint(x, y);
                     points.add(point);
                     space.addObject(point);
                     point.Draw(space);
@@ -88,12 +84,5 @@ public class RectConfigurator extends BaseConfigurator{
             }
         });
         space.getWorkSpace().setOnMouseClicked(null);
-    }
-
-    @Override
-    public void Cancellation() {
-        super.Cancellation();
-        space.getWorkSpace().setOnMouseClicked(null);
-        point = null;
     }
 }

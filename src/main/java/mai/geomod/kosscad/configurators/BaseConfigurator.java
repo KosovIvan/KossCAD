@@ -33,6 +33,7 @@ public abstract class BaseConfigurator {
         space.removePoints(points);
         space.getWorkSpace().getChildren().removeAll(points);
         points.clear();
+        space.getWorkSpace().setOnMouseClicked(null);
     }
 
     protected interface PointHandler {
@@ -45,7 +46,6 @@ public abstract class BaseConfigurator {
                 nextAction.handle(e.getX(), e.getY());
             }
         });
-
         space.getInputTool().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 List<Double> inputs = inputBuilder.readInputValues();

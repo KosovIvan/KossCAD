@@ -14,7 +14,6 @@ import mai.geomod.kosscad.util.WorkSpace;
 import java.util.List;
 
 public class LineConfigurator extends BaseConfigurator {
-    private MyPoint point;
 
     public LineConfigurator(WorkSpace space) {
         super(space);
@@ -46,11 +45,9 @@ public class LineConfigurator extends BaseConfigurator {
             space.addObject(line);
             line.Draw(space);
             points.clear();
-            this.point = null;
             inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
         }
         else {
-            this.point = point;
             inputBuilder.setPrompts("Укажите координаты точки " + 2, "X", "Y");
         }
     }
@@ -60,25 +57,24 @@ public class LineConfigurator extends BaseConfigurator {
         space.getInputTool().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 List<Double> inputs = inputBuilder.readInputValues();
-                if (point != null) {
+                if (!points.isEmpty()) {
                     double angle = inputs.get(0);
                     double length = inputs.get(1) * space.getScale();
-                    double x = point.getX() + Math.cos(Math.toRadians(-angle)) * length;
-                    double y = point.getY() + Math.sin(Math.toRadians(-angle)) * length;
+                    double x = points.getFirst().getX() + Math.cos(Math.toRadians(-angle)) * length;
+                    double y = points.getFirst().getY() + Math.sin(Math.toRadians(-angle)) * length;
                     MyPoint point2 = new MyPoint(x, y);
                     points.add(point2);
                     space.addObject(point2);
                     point2.Draw(space);
-                    MyLine line = new MyLine(point, point2);
+                    MyLine line = new MyLine(points.getFirst(), point2);
                     space.addObject(line);
                     line.Draw(space);
                     points.clear();
-                    point = null;
                     inputBuilder.setPrompts("Укажите координаты первой точки", "X", "Y");
                 } else {
                     double x = space.getCoords().getPoint().getX() + inputs.get(0) * space.getScale();
                     double y = space.getCoords().getPoint().getY() - inputs.get(1) * space.getScale();
-                    point = new MyPoint(x, y);
+                    MyPoint point = new MyPoint(x, y);
                     points.add(point);
                     space.addObject(point);
                     point.Draw(space);
@@ -87,12 +83,5 @@ public class LineConfigurator extends BaseConfigurator {
             }
         });
         space.getWorkSpace().setOnMouseClicked(null);
-    }
-
-    @Override
-    public void Cancellation() {
-        super.Cancellation();
-        space.getWorkSpace().setOnMouseClicked(null);
-        point = null;
     }
 }

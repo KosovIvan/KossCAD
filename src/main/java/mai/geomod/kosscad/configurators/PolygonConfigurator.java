@@ -1,37 +1,33 @@
 package mai.geomod.kosscad.configurators;
 
-import javafx.event.EventHandler;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import mai.geomod.kosscad.figures.MyCircle;
-import mai.geomod.kosscad.figures.MyLine;
 import mai.geomod.kosscad.figures.MyPoint;
-import mai.geomod.kosscad.figures.MyRect;
 import mai.geomod.kosscad.modes.DrawingMode;
 import mai.geomod.kosscad.util.WorkSpace;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class CircleConfigurator extends BaseConfigurator{
+public class PolygonConfigurator extends BaseConfigurator{
+    private int n = 4;
 
-    public CircleConfigurator(WorkSpace space) {
+    public PolygonConfigurator(WorkSpace space) {
         super(space);
-        modes.getItems().addAll(DrawingMode.RADIUS, DrawingMode.BY_3_POINTS);
-        modes.setValue(DrawingMode.RADIUS);
+        modes.getItems().addAll(DrawingMode.INSCRIBED_IN_CIRCLE, DrawingMode.CIRCUMSCRIBED_AROUND_CIRCLE);
+        modes.setValue(DrawingMode.INSCRIBED_IN_CIRCLE);
+        inputBuilder.setPrompts("Укажите координаты центральной точки", "X", "Y", "Количество сторон");
+        inputBuilder.getCoordsInputs().getLast().setText(String.valueOf(n));
     }
 
     @Override
     public BaseConfigurator Activate() {
         switch (modes.getValue()) {
-            case RADIUS:
-                drawRadius();
+            case INSCRIBED_IN_CIRCLE:
+                //draw(DrawingMode.INSCRIBED_IN_CIRCLE);
                 break;
-            case BY_3_POINTS:
-                inputBuilder.setPrompts("Укажите координаты точки 1", "X", "Y");
-                setInputHandlers(this::drawPoints);
+            case CIRCUMSCRIBED_AROUND_CIRCLE:
+                //draw(DrawingMode.CIRCUMSCRIBED_AROUND_CIRCLE);
                 break;
         }
         return this;

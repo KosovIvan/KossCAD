@@ -6,14 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import mai.geomod.kosscad.configurators.BaseConfigurator;
-import mai.geomod.kosscad.configurators.CircleConfigurator;
-import mai.geomod.kosscad.configurators.LineConfigurator;
-import mai.geomod.kosscad.configurators.RectConfigurator;
+import mai.geomod.kosscad.configurators.*;
 import mai.geomod.kosscad.editors.FigureEditor;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.util.*;
@@ -35,7 +34,7 @@ public class Controller {
     @FXML
     private VBox position;
     @FXML
-    private ToggleButton lineBtn, rectBtn, circleBtn, splineBtn, arcBtn, polygonBtn, panBtn, rotationBtn;
+    private ToggleButton lineBtn, rectBtn, circleBtn, polygonBtn, arcBtn, splineBtn, panBtn, rotationBtn;
     @FXML
     private ToolBar inputTool;
 
@@ -46,6 +45,7 @@ public class Controller {
     private LineConfigurator lineConf;
     private RectConfigurator rectConf;
     private CircleConfigurator circleConf;
+    private PolygonConfigurator polygonConf;
     private EventHandler<? super MouseEvent> previousMouseClickHandler;
     private EventHandler<MouseEvent> defaultMouseMovedHandler, defaultMouseClickedHandler, defaultMouseDraggedHandler, defaultMousePressedHandler;
     private final List<Figure> selectedFigures = new LinkedList<>();
@@ -70,6 +70,7 @@ public class Controller {
         lineConf = new LineConfigurator(space);
         rectConf = new RectConfigurator(space);
         circleConf = new CircleConfigurator(space);
+        polygonConf = new PolygonConfigurator(space);
     }
 
     private void workSpaceInit() {
@@ -201,9 +202,7 @@ public class Controller {
     }
 
     @FXML
-    private void splineDrawing(ActionEvent event) {
-
-    }
+    private void polygonDrawing(ActionEvent event) { figureDrawing(polygonBtn, polygonConf); }
 
     @FXML
     private void arcDrawing(ActionEvent event) {
@@ -211,7 +210,7 @@ public class Controller {
     }
 
     @FXML
-    private void polygonDrawing(ActionEvent event) {
+    private void splineDrawing(ActionEvent event) {
 
     }
 
@@ -223,7 +222,27 @@ public class Controller {
         if (button.isSelected()) {
             borderPane.setLeft(inputTool);
             panBtn.setSelected(false);
+            panByLBM(new ActionEvent());
             lastConf = conf.Activate();
+            space.getWorkSpace().addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                if (e.getCode() == KeyCode.ESCAPE) {
+                    System.out.println("Baba");
+                    button.setSelected(false);
+                    conf.Cancellation();
+                    space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
+                    borderPane.setLeft(null);
+                    previousMouseClickHandler = null;
+                }
+            });
+            space.getInputTool().addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                if (e.getCode() == KeyCode.ESCAPE) {
+                    button.setSelected(false);
+                    conf.Cancellation();
+                    space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
+                    borderPane.setLeft(null);
+                    previousMouseClickHandler = null;
+                }
+            });
         } else {
             conf.Cancellation();
             space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);

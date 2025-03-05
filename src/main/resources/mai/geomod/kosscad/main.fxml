@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="mai.geomod.kosscad.Controller">
   <center>
@@ -22,9 +13,9 @@
       <ToggleButton fx:id="lineBtn" onAction="#lineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Линия</ToggleButton>
       <ToggleButton fx:id="rectBtn" onAction="#rectDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Прямоугольник</ToggleButton>
       <ToggleButton fx:id="circleBtn" onAction="#circleDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Окружность</ToggleButton>
-      <ToggleButton fx:id="splineBtn" onAction="#splineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Сплайн</ToggleButton>
-      <ToggleButton fx:id="arcBtn" onAction="#arcDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Дуга</ToggleButton>
       <ToggleButton fx:id="polygonBtn" onAction="#polygonDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Многоугольник</ToggleButton>
+      <ToggleButton fx:id="arcBtn" onAction="#arcDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Дуга</ToggleButton>
+      <ToggleButton fx:id="splineBtn" onAction="#splineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Сплайн</ToggleButton>
     </ToolBar>
   </top>
 

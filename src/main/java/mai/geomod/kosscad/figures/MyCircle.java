@@ -33,6 +33,7 @@ public class MyCircle extends ModifiableFigure{
     }
 
     public MyCircle(MyPoint point1, MyPoint point2, MyPoint point3) {
+        id = ++counter;
         double[] values = getCenterAndRadius(point1, point2, point3);
         cPoint = new MyPoint(values[0], values[1]);
         r = values[2];

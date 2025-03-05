@@ -55,6 +55,14 @@ public class MyLine extends ModifiableFigure {
         getChildren().add(line);
     }
 
+    public void setPoints(MyPoint point1, MyPoint point2) {
+        startPoint.setX(point1.getX());
+        startPoint.setY(point1.getY());
+        endPoint.setX(point2.getX());
+        endPoint.setY(point2.getY());
+        setCoords();
+    }
+
     public void setCoords() {
         line.setStartX(startPoint.getX());
         line.setStartY(startPoint.getY());
