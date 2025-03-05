@@ -175,7 +175,7 @@ public class Controller {
                 selectedFigures.forEach(figure -> figure.setColor(Color.ORANGE));
 
                 if (selectedFigures.size() == 1 && !rotationBtn.isSelected()) {
-                    new FigureEditor(space, hoveredFigure).inputBarInit();
+                    new FigureEditor(borderPane, space, hoveredFigure).inputBarInit();
                     borderPane.setLeft(inputTool);
                 }
             }
@@ -223,7 +223,6 @@ public class Controller {
             borderPane.setLeft(inputTool);
             panBtn.setSelected(false);
             panByLBM(new ActionEvent());
-            lastConf = conf.Activate();
             space.getWorkSpace().addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                 if (e.getCode() == KeyCode.ESCAPE) {
                     System.out.println("Baba");
@@ -236,6 +235,7 @@ public class Controller {
             });
             space.getInputTool().addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                 if (e.getCode() == KeyCode.ESCAPE) {
+                    System.out.println("Baba");
                     button.setSelected(false);
                     conf.Cancellation();
                     space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
@@ -243,6 +243,7 @@ public class Controller {
                     previousMouseClickHandler = null;
                 }
             });
+            lastConf = conf.Activate();
         } else {
             conf.Cancellation();
             space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);

@@ -21,6 +21,7 @@ public class InputBuilder {
     private ComboBox<LineType> lineTypes;
     private TextField thickness;
     private Button applyBtn;
+    private Button removeBtn;
 
     public InputBuilder(ToolBar toolBar) {
         this.toolBar = toolBar;
@@ -126,8 +127,8 @@ public class InputBuilder {
             setStyle(lineTypePrompts, lineTypeInputs);
         }
 
-        if (applyBtn != null)
-            toolBar.getItems().add(applyBtn);
+        if (applyBtn != null) toolBar.getItems().add(applyBtn);
+        if (removeBtn != null) toolBar.getItems().add(removeBtn);
     }
 
     private void setStyle(List<Label> prompts, List<TextField> inputs) {
@@ -150,6 +151,12 @@ public class InputBuilder {
         applyBtn = new Button("Применить");
         toolBar.getItems().addLast(applyBtn);
         return applyBtn;
+    }
+
+    public Button addRemoveButton() {
+        removeBtn = new Button("Удалить");
+        toolBar.getItems().addLast(removeBtn);
+        return removeBtn;
     }
 
     public double getThicknessValue() {

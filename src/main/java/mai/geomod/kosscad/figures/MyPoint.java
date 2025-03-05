@@ -89,6 +89,9 @@ public class MyPoint extends ModifiableFigure {
     }
 
     @Override
+    public void Remove(WorkSpace space) {}
+
+    @Override
     public void setValuesFromInputs(List<Double> values, MyPoint center) {
         setX(values.get(0) + center.getX());
         setY(center.getY() - values.get(1));

@@ -134,6 +134,9 @@ public class MyLine extends ModifiableFigure {
     }
 
     @Override
+    public void Remove(WorkSpace space) { space.getWorkSpace().getChildren().removeAll(startPoint, endPoint, this); }
+
+    @Override
     public void setValuesFromInputs(List<Double> values, MyPoint center) {
         startPoint.setX(values.get(0) + center.getX());
         startPoint.setY(center.getY() - values.get(1));

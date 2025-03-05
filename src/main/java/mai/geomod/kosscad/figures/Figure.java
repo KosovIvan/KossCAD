@@ -47,4 +47,5 @@ public abstract class Figure extends Group {
     public abstract void Draw(WorkSpace space);
     public abstract void Move(double xDelta, double yDelta);
     public abstract void Scale(double scale, double cursorX, double cursorY);
+    public abstract void Remove(WorkSpace space);
 }

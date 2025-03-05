@@ -128,6 +128,11 @@ public class MyCircle extends ModifiableFigure{
     }
 
     @Override
+    public void Remove(WorkSpace space) {
+        space.getWorkSpace().getChildren().removeAll(cPoint, this);
+    }
+
+    @Override
     public void setValuesFromInputs(List<Double> values, MyPoint center) {
         double x = values.get(0) + center.getX();
         double y = center.getY() - values.get(1);

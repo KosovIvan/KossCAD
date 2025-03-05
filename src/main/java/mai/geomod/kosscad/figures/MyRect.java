@@ -142,6 +142,12 @@ public class MyRect extends ModifiableFigure {
         setCoords();
     }
 
+    @Override
+    public void Remove(WorkSpace space) {
+        for (int i = 0; i < points.length; i++) space.getWorkSpace().getChildren().removeAll(points[i]);
+        space.getWorkSpace().getChildren().remove(this);
+    }
+
     private void setWidth(double width) {
         double scale = width / this.width;
         this.width = width;

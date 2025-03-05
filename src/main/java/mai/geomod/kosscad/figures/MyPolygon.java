@@ -17,6 +17,7 @@ public class MyPolygon extends ModifiableFigure {
     private MyPoint center;
     private double R;
     private double r;
+    private static long counter = 0;
 
     private void init(MyPoint center, int n) {
         this.center = center;
@@ -26,6 +27,7 @@ public class MyPolygon extends ModifiableFigure {
     }
 
     public MyPolygon(MyPoint center, double radius, int n, DrawingMode mode) {
+        id = ++counter;
         if (mode == DrawingMode.INSCRIBED_IN_CIRCLE)
             this.R = radius;
         else if (mode == DrawingMode.CIRCUMSCRIBED_AROUND_CIRCLE)
@@ -36,6 +38,7 @@ public class MyPolygon extends ModifiableFigure {
     }
 
     public MyPolygon(MyPoint center, MyPoint vertex, int n, DrawingMode mode) {
+        id = ++counter;
         init(center, n);
         build(mode, vertex);
     }
@@ -112,6 +115,11 @@ public class MyPolygon extends ModifiableFigure {
     }
 
     @Override
+    public void Remove(WorkSpace space) {
+        space.getWorkSpace().getChildren().remove(this);
+    }
+
+    @Override
     public boolean isHover(double x, double y) {
         for (MyLine line : lines)
             if (line.isHover(x, y))
@@ -172,6 +180,6 @@ public class MyPolygon extends ModifiableFigure {
 
     @Override
     public String getName() {
-        return "МНОГОУГОЛЬНИК";
+        return "МНОГОУГОЛЬНИК_" + id;
     }
 }

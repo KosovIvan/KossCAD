@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.figures.ModifiableFigure;
 import mai.geomod.kosscad.figures.MyPoint;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FigureEditor {
+    private final BorderPane pane;
     private final WorkSpace space;
     private final ToolBar toolBar;
     private final Figure figure;
@@ -24,7 +26,8 @@ public class FigureEditor {
     private final InputBuilder inputBuilder;
     private ComboBox<LineType> lineTypes;
 
-    public FigureEditor(WorkSpace space, Figure figure) {
+    public FigureEditor(BorderPane pane, WorkSpace space, Figure figure) {
+        this.pane = pane;
         this.space = space;
         this.figure = figure;
         this.toolBar = space.getInputTool();
@@ -40,11 +43,15 @@ public class FigureEditor {
         showLineType();
 
         Button applyBtn = inputBuilder.addApplyButton();
+        Button removeBtn = inputBuilder.addRemoveButton();
 
         applyBtn.setOnAction(e -> applyInputs());
+        removeBtn.setOnAction(e -> {
+            deleteObject();
+            pane.setLeft(null);
+        });
         toolBar.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER)
-                applyInputs();
+            if (e.getCode() == KeyCode.ENTER) applyInputs();
         });
     }
 
@@ -77,5 +84,9 @@ public class FigureEditor {
         LineType lineType = LineType.copy(figure.getLineType());
         lineType.setDashSpace(inputBuilder.getDashSpace());
         figure.setLineType(lineType, space.getScale());
+    }
+
+    private void deleteObject() {
+        figure.Remove(space);
     }
 }
