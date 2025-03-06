@@ -2,6 +2,9 @@ package mai.geomod.kosscad.util;
 
 import mai.geomod.kosscad.figures.MyPoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Math {
     public static double PointsDistance(MyPoint point1, MyPoint point2) {
         double x = java.lang.Math.abs(point1.getX() - point2.getX());
@@ -54,7 +57,44 @@ public class Math {
                 sum += a[i][j] * x[j];
             x[i] = (b[i] - sum) / a[i][i];
         }
-
         return x;
+    }
+
+    public static List<MyPoint> findLineCircleIntersections(MyPoint center, double radius, MyPoint point1, MyPoint point2) {
+        double cx = center.getX();
+        double cy = center.getY();
+
+        double x1 = point1.getX();
+        double y1 = point1.getY();
+        double x2 = point2.getX();
+        double y2 = point2.getY();
+
+        double k = (y2 - y1) / (x2 - x1);
+        double b = y1 - k * x1;
+
+        double A = 1 + k * k;
+        double B = 2 * k * (b - cy) - 2 * cx;
+        double C = cx * cx + (b - cy) * (b - cy) - radius * radius;
+
+        double D = B * B - 4 * A * C;
+
+        if (D < 0)
+            return new ArrayList<>();
+
+        if (D == 0) {
+            double xIntersect = B / (2 * A);
+            double yIntersect = k * xIntersect + b;
+            return List.of(new MyPoint(xIntersect, yIntersect));
+        }
+
+        double sqrtD = java.lang.Math.sqrt(D);
+        double xIntersect1 = (-B + sqrtD) / (2 * A);
+        double yIntersect1 = k * xIntersect1 + b;
+        double xIntersect2 = (-B - sqrtD) / (2 * A);
+        double yIntersect2 = k * xIntersect2 + b;
+        MyPoint intersection1 = new MyPoint(xIntersect1, yIntersect1);
+        MyPoint intersection2 = new MyPoint(xIntersect2, yIntersect2);
+
+        return List.of(intersection1, intersection2);
     }
 }

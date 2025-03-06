@@ -42,7 +42,7 @@ public class CircleConfigurator extends BaseConfigurator{
         points.add(point);
         space.addObject(point);
         point.Draw(space);
-        if (points.size() >= 3) {
+        if (points.size() == 3) {
             MyCircle circle = new MyCircle(points.get(0), points.get(1), points.get(2));
             space.addObject(circle.getCenter());
             circle.getCenter().Draw(space);

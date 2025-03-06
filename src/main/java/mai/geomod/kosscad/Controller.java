@@ -46,6 +46,7 @@ public class Controller {
     private RectConfigurator rectConf;
     private CircleConfigurator circleConf;
     private PolygonConfigurator polygonConf;
+    private ArcConfigurator arcConf;
     private EventHandler<? super MouseEvent> previousMouseClickHandler;
     private EventHandler<MouseEvent> defaultMouseMovedHandler, defaultMouseClickedHandler, defaultMouseDraggedHandler, defaultMousePressedHandler;
     private final List<Figure> selectedFigures = new LinkedList<>();
@@ -71,6 +72,7 @@ public class Controller {
         rectConf = new RectConfigurator(space);
         circleConf = new CircleConfigurator(space);
         polygonConf = new PolygonConfigurator(space);
+        arcConf = new ArcConfigurator(space);
     }
 
     private void workSpaceInit() {
@@ -205,9 +207,7 @@ public class Controller {
     private void polygonDrawing(ActionEvent event) { figureDrawing(polygonBtn, polygonConf); }
 
     @FXML
-    private void arcDrawing(ActionEvent event) {
-
-    }
+    private void arcDrawing(ActionEvent event) { figureDrawing(arcBtn, arcConf); }
 
     @FXML
     private void splineDrawing(ActionEvent event) {
