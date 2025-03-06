@@ -33,7 +33,7 @@ public class MyArc extends ModifiableFigure{
         id = ++counter;
         this.center = center;
         startPoint = chord.getStartPoint();
-        radius = PointsDistance(center, startPoint);
+        radius = pointsDistance(center, startPoint);
         Build(chord);
     }
 
@@ -130,7 +130,7 @@ public class MyArc extends ModifiableFigure{
     @Override
     public boolean isHover(double x, double y) {
         double eps = 5;
-        double distance = PointsDistance(center, new MyPoint(x, y));
+        double distance = pointsDistance(center, new MyPoint(x, y));
         return Math.abs(distance - radius) < eps;
     }
 

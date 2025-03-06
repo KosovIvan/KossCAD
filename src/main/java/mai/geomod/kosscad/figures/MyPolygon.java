@@ -8,7 +8,7 @@ import mai.geomod.kosscad.util.WorkSpace;
 import java.util.List;
 import java.util.Map;
 
-import static mai.geomod.kosscad.util.Math.PointsDistance;
+import static mai.geomod.kosscad.util.Math.pointsDistance;
 
 public class MyPolygon extends ModifiableFigure {
     private int n;
@@ -49,7 +49,7 @@ public class MyPolygon extends ModifiableFigure {
         switch (mode) {
             case INSCRIBED_IN_CIRCLE:
                 if (R == 0) {
-                    R = PointsDistance(center, vertex);
+                    R = pointsDistance(center, vertex);
                     points[0] = vertex;
                     extraAngle = Math.toDegrees(Math.acos((center.getY() - vertex.getY()) / R));
                 } else if (vertex == null)
@@ -59,7 +59,7 @@ public class MyPolygon extends ModifiableFigure {
 
             case CIRCUMSCRIBED_AROUND_CIRCLE:
                 if (r == 0) {
-                    r = PointsDistance(center, vertex);
+                    r = pointsDistance(center, vertex);
                     R = r / Math.cos(Math.PI / n);
                     extraAngle = Math.toDegrees(Math.acos((center.getY() - vertex.getY()) / r));
                 } else if (vertex == null) {

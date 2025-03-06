@@ -9,7 +9,7 @@ import mai.geomod.kosscad.util.WorkSpace;
 import java.util.List;
 import java.util.Map;
 
-import static mai.geomod.kosscad.util.Math.PointsDistance;
+import static mai.geomod.kosscad.util.Math.pointsDistance;
 import static mai.geomod.kosscad.util.Math.getCenterAndRadius;
 
 public class MyCircle extends ModifiableFigure{
@@ -21,7 +21,7 @@ public class MyCircle extends ModifiableFigure{
     public MyCircle(MyPoint cPoint, MyPoint vertex) {
         id = ++counter;
         this.cPoint = cPoint;
-        this.r = PointsDistance(cPoint, vertex);
+        this.r = pointsDistance(cPoint, vertex);
         Build();
     }
 
@@ -108,7 +108,7 @@ public class MyCircle extends ModifiableFigure{
     @Override
     public boolean isHover(double x, double y) {
         double eps = 5;
-        double distance = PointsDistance(cPoint, new MyPoint(x, y));
+        double distance = pointsDistance(cPoint, new MyPoint(x, y));
         return java.lang.Math.abs(distance - r) < eps;
     }
 

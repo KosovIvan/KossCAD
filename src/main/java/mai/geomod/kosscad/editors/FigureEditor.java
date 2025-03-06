@@ -37,8 +37,8 @@ public class FigureEditor {
     }
 
     public void inputBarInit() {
-        if (figure instanceof ModifiableFigure)
-            showCoords();
+        if (figure instanceof ModifiableFigure) showCoords();
+        else if (figure instanceof MySpline) new SplineEditor(space, figure).pointMovement();
 
         showLineType();
 

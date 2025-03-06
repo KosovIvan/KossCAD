@@ -47,6 +47,7 @@ public class Controller {
     private CircleConfigurator circleConf;
     private PolygonConfigurator polygonConf;
     private ArcConfigurator arcConf;
+    private SplineConfigurator splineConf;
     private EventHandler<? super MouseEvent> previousMouseClickHandler;
     private EventHandler<MouseEvent> defaultMouseMovedHandler, defaultMouseClickedHandler, defaultMouseDraggedHandler, defaultMousePressedHandler;
     private final List<Figure> selectedFigures = new LinkedList<>();
@@ -73,6 +74,7 @@ public class Controller {
         circleConf = new CircleConfigurator(space);
         polygonConf = new PolygonConfigurator(space);
         arcConf = new ArcConfigurator(space);
+        splineConf = new SplineConfigurator(space);
     }
 
     private void workSpaceInit() {
@@ -210,9 +212,7 @@ public class Controller {
     private void arcDrawing(ActionEvent event) { figureDrawing(arcBtn, arcConf); }
 
     @FXML
-    private void splineDrawing(ActionEvent event) {
-
-    }
+    private void splineDrawing(ActionEvent event) { figureDrawing(splineBtn, splineConf); }
 
     private void figureDrawing(ToggleButton button, BaseConfigurator conf) {
         if (lastConf != null) lastConf.Cancellation();
@@ -223,26 +223,6 @@ public class Controller {
             borderPane.setLeft(inputTool);
             panBtn.setSelected(false);
             panByLBM(new ActionEvent());
-            space.getWorkSpace().addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.getCode() == KeyCode.ESCAPE) {
-                    System.out.println("Baba");
-                    button.setSelected(false);
-                    conf.Cancellation();
-                    space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
-                    borderPane.setLeft(null);
-                    previousMouseClickHandler = null;
-                }
-            });
-            space.getInputTool().addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.getCode() == KeyCode.ESCAPE) {
-                    System.out.println("Baba");
-                    button.setSelected(false);
-                    conf.Cancellation();
-                    space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
-                    borderPane.setLeft(null);
-                    previousMouseClickHandler = null;
-                }
-            });
             lastConf = conf.Activate();
         } else {
             conf.Cancellation();

@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static mai.geomod.kosscad.util.Math.PointsDistance;
+import static mai.geomod.kosscad.util.Math.pointsDistance;
 
 public class MyLine extends ModifiableFigure {
     private final MyPoint startPoint;
@@ -103,8 +103,8 @@ public class MyLine extends ModifiableFigure {
         double distance = 10;
 
         if (x >= Math.min(x1, x2) - eps && x <= Math.max(x1, x2) + eps && y >= Math.min(y1, y2) - eps && y <= Math.max(y1, y2) + eps) {
-            double a = PointsDistance(startPoint, endPoint);
-            double b = PointsDistance(startPoint, new MyPoint(x, y));
+            double a = pointsDistance(startPoint, endPoint);
+            double b = pointsDistance(startPoint, new MyPoint(x, y));
             double scalar = (x2 - x1) * (x - x1) + (y2 - y1) * (y - y1);
             double cos = scalar / (a * b);
             distance = b * Math.sqrt(1 - cos * cos);

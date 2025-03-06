@@ -9,7 +9,7 @@ public enum DrawingMode {
     INSCRIBED_IN_CIRCLE("Вписанный"),
     CIRCUMSCRIBED_AROUND_CIRCLE("Описанный"),
     CHORD("Хорда"),
-    QUAD_SPLINE("Квадратичный"),
+    QUAD("Квадратичный"),
     BEZIER("Безье");
 
     DrawingMode(String name) {
