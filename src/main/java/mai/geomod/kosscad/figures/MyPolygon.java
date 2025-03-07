@@ -115,6 +115,12 @@ public class MyPolygon extends ModifiableFigure {
     }
 
     @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        for (MyPoint point : points) point.Rotate(centralPoint, angle);
+        updateLines();
+    }
+
+    @Override
     public void Remove(WorkSpace space) {
         space.getWorkSpace().getChildren().remove(this);
     }

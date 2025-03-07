@@ -88,16 +88,16 @@ public class MyBezier extends MySpline {
     }
 
     @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        points.forEach(p -> p.Rotate(centralPoint, angle));
+        controlPoints.forEach(p -> p.Rotate(centralPoint, angle));
+        Update();
+    }
+
+    @Override
     public void Remove(WorkSpace space) {
         space.getWorkSpace().getChildren().remove(this);
     }
-
-    /*@Override
-    public void rotate(MyPoint centralPoint, double angle) {
-        points.forEach(p -> p.rotate(centralPoint, angle));
-        controlPoints.forEach(p -> p.rotate(centralPoint, angle));
-        Update();
-    }*/
 
     @Override
     public void setColor(Color color) {

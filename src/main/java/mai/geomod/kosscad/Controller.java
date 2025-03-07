@@ -258,6 +258,12 @@ public class Controller {
 
     @FXML
     private void rotate() {
-
+        if (rotationBtn.isSelected()) {
+            borderPane.setLeft(inputTool);
+            space.rotate(selectedFigures);
+        } else {
+            space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
+            borderPane.setLeft(null);
+        }
     }
 }

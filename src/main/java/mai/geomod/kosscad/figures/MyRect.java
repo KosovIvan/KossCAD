@@ -143,6 +143,12 @@ public class MyRect extends ModifiableFigure {
     }
 
     @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        for (MyPoint point : points) point.Rotate(centralPoint, angle);
+        setCoords();
+    }
+
+    @Override
     public void Remove(WorkSpace space) {
         for (int i = 0; i < points.length; i++) space.getWorkSpace().getChildren().removeAll(points[i]);
         space.getWorkSpace().getChildren().remove(this);

@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static mai.geomod.kosscad.util.Math.pointsDistance;
+
 public class MyPoint extends ModifiableFigure {
     private double x;
     private double y;
@@ -86,6 +88,21 @@ public class MyPoint extends ModifiableFigure {
         double yDif = cursorY - y;
         setX(x + xDif * scale - xDif);
         setY(y - yDif * scale + yDif);
+    }
+
+    @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        double distance = pointsDistance(this, centralPoint);
+        if (distance == 0)
+            return;
+        double extraAngle = Math.toDegrees(Math.asin((centralPoint.getY() - y) / distance));
+        if (x < centralPoint.getX())
+            extraAngle = 180 - extraAngle;
+
+        double x = distance * Math.cos(Math.toRadians(angle + extraAngle));
+        double y = distance * Math.sin(Math.toRadians(angle + extraAngle));
+        setX(centralPoint.getX() + x);
+        setY(centralPoint.getY() - y);
     }
 
     @Override

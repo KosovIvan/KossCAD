@@ -16,7 +16,7 @@ public class MyCircle extends ModifiableFigure{
     private MyPoint cPoint;
     private double r;
     private Circle circle;
-    private static long counter = 0;
+                    private static long counter = 0;
 
     public MyCircle(MyPoint cPoint, MyPoint vertex) {
         id = ++counter;
@@ -125,6 +125,12 @@ public class MyCircle extends ModifiableFigure{
     @Override
     public void Scale(double scale, double cursorX, double cursorY) {
         setCoords(scale);
+    }
+
+    @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        cPoint.Rotate(centralPoint, angle);
+        setCoords();
     }
 
     @Override

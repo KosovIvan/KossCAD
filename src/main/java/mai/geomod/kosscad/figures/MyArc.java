@@ -120,6 +120,15 @@ public class MyArc extends ModifiableFigure{
     }
 
     @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        startPoint.Rotate(centralPoint, angle);
+        endPoint.Rotate(centralPoint, angle);
+        center.Rotate(centralPoint, angle);
+        setCenter(center);
+        arc.setStartAngle(arc.getStartAngle() + angle);
+    }
+
+    @Override
     public void Remove(WorkSpace space){
         space.getWorkSpace().getChildren().removeAll(startPoint, endPoint, this);
     }

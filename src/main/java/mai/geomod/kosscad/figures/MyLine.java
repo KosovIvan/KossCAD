@@ -134,6 +134,13 @@ public class MyLine extends ModifiableFigure {
     }
 
     @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        startPoint.Rotate(centralPoint, angle);
+        endPoint.Rotate(centralPoint, angle);
+        setCoords();
+    }
+
+    @Override
     public void Remove(WorkSpace space) { space.getWorkSpace().getChildren().removeAll(startPoint, endPoint, this); }
 
     @Override

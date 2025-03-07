@@ -98,11 +98,11 @@ public class MyQuad extends MySpline{
         space.getWorkSpace().getChildren().remove(this);
     }
 
-    /*@Override
-    public void rotate(MyPoint centralPoint, double angle) {
-        points.forEach(p -> p.rotate(centralPoint, angle));
-        update();
-    }*/
+    @Override
+    public void Rotate(MyPoint centralPoint, double angle) {
+        points.forEach(p -> p.Rotate(centralPoint, angle));
+        Update();
+    }
 
     @Override
     public void setColor(Color color) {

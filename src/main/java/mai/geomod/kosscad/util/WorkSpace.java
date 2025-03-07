@@ -1,7 +1,9 @@
 package mai.geomod.kosscad.util;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -107,6 +109,41 @@ public class WorkSpace {
             }
         }
     }
+
+    public void rotate(List<Figure> figures) {
+        InputBuilder inputBuilder = new InputBuilder(inputTool);
+        inputBuilder.setPrompts("Выберите объекты для поворта");
+        Button button = inputBuilder.addApplyButton();
+        button.requestFocus();
+
+        EventHandler<ActionEvent> eventHandler = new EventHandler<>() {
+            private MyPoint centralPoint;
+            private Double angle;
+
+            @Override
+            public void handle(ActionEvent event) {
+                List<Double> inputs = inputBuilder.readInputValues();
+                if (!figures.isEmpty() && centralPoint == null && inputBuilder.getCoordsInputs().isEmpty()) {
+                    inputBuilder.setPrompts("Укажите координаты центральной точки вращения", "X", "Y");
+                } else if (centralPoint == null && !inputBuilder.getCoordsInputs().isEmpty()) {
+                    double x = (coords.getPoint().getX() + inputs.get(0) * scale);
+                    double y = (coords.getPoint().getY() - inputs.get(1) * scale);
+                    centralPoint = new MyPoint(x, y);
+                    inputBuilder.setPrompts("Укажите угол поворота", "Угол");
+                } else if (centralPoint != null) {
+                    angle = inputs.get(0);
+                    figures.forEach(figure -> figure.Rotate(centralPoint, angle));
+                    centralPoint = null;
+                    inputBuilder.setPrompts("Выберите объекты для поворта");
+                }
+            }
+        };
+
+        button.setOnAction(eventHandler);
+        inputTool.setOnKeyPressed(null);
+        workSpace.setOnMouseClicked(getDefaultMouseClickedHandler());
+    }
+
 
     public EventHandler<MouseEvent> getDefaultMouseMovedHandler() {
         return defaultMouseMovedHandler;
