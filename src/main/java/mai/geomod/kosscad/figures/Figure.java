@@ -43,6 +43,7 @@ public abstract class Figure extends Group {
     }
 
     public abstract String getName();
+    public abstract String getDXFName();
     public abstract boolean isHover(double x, double y);
     public abstract void Draw(WorkSpace space);
     public abstract void Remove(WorkSpace space);

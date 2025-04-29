@@ -119,6 +119,11 @@ public class MyLine extends ModifiableFigure {
     }
 
     @Override
+    public String getDXFName() {
+        return "LINE";
+    }
+
+    @Override
     public void Draw(WorkSpace space) {
         space.getWorkSpace().getChildren().add(this);
     }

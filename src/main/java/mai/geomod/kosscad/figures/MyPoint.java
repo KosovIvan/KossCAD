@@ -67,6 +67,11 @@ public class MyPoint extends ModifiableFigure {
     }
 
     @Override
+    public String getDXFName() {
+        return "POINT";
+    }
+
+    @Override
     public boolean isHover(double x, double y) {
         return Math.abs(this.x - x) < 3 && Math.abs(this.y - y) < 3;
     }

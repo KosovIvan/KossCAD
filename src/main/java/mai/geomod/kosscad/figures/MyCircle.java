@@ -74,6 +74,8 @@ public class MyCircle extends ModifiableFigure{
         circle.setCenterY(y);
     }
 
+    public double getRadius() { return r; }
+
     public void setRadius(double r) {
         this.r = r;
         circle.setRadius(r);
@@ -103,6 +105,11 @@ public class MyCircle extends ModifiableFigure{
     @Override
     public String getName() {
         return "КРУГ_" + id;
+    }
+
+    @Override
+    public String getDXFName() {
+        return "CIRCLE";
     }
 
     @Override

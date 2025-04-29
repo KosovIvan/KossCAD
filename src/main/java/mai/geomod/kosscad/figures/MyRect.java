@@ -46,6 +46,29 @@ public class MyRect extends ModifiableFigure {
         Build(point1, point2, point3, point4);
     }
 
+    public MyRect(List<MyPoint> points) {
+        MyPoint point1 = points.get(0);
+        MyPoint point2 = points.get(1);
+        MyPoint point3 = points.get(2);
+        MyPoint point4 = points.get(3);
+
+        width = Math.max(
+                Math.max(Math.abs(point1.getX() - point3.getX()), Math.abs(point2.getX() - point4.getX())),
+                Math.max(Math.abs(point1.getX() - point2.getX()), Math.abs(point3.getX() - point4.getX()))
+        );
+
+        height = Math.max(
+                Math.max(Math.abs(point1.getY() - point3.getY()), Math.abs(point2.getY() - point4.getY())),
+                Math.max(Math.abs(point1.getY() - point2.getY()), Math.abs(point3.getY() - point4.getY()))
+        );
+
+        double sumX = point1.getX() + point2.getX() + point3.getX() + point4.getX();
+        double sumY = point1.getY() + point2.getY() + point3.getY() + point4.getY();
+        center = new MyPoint(sumX / 4, sumY / 4);
+
+        Build(point1, point2, point3, point4);
+    }
+
     private void Build(MyPoint point1, MyPoint point2, MyPoint point3, MyPoint point4) {
         points[0] = point1;
         points[1] = point3;
@@ -115,6 +138,11 @@ public class MyRect extends ModifiableFigure {
     @Override
     public String getName() {
         return "ПРЯМОУГОЛЬНИК_" + id;
+    }
+
+    @Override
+    public String getDXFName() {
+        return "POLYLINE";
     }
 
     @Override
@@ -202,5 +230,9 @@ public class MyRect extends ModifiableFigure {
         map.put("Ширина", width);
         map.put("Высота", height);
         return map;
+    }
+
+    public MyPoint[] getPoints() {
+        return points;
     }
 }

@@ -10,12 +10,19 @@
 
   <top>
     <ToolBar style="-fx-background-color: #3B4455">
-      <ToggleButton fx:id="lineBtn" onAction="#lineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Линия</ToggleButton>
-      <ToggleButton fx:id="rectBtn" onAction="#rectDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Прямоугольник</ToggleButton>
-      <ToggleButton fx:id="circleBtn" onAction="#circleDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Окружность</ToggleButton>
-      <ToggleButton fx:id="polygonBtn" onAction="#polygonDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Многоугольник</ToggleButton>
-      <ToggleButton fx:id="arcBtn" onAction="#arcDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Дуга</ToggleButton>
-      <ToggleButton fx:id="splineBtn" onAction="#splineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Сплайн</ToggleButton>
+      <HBox spacing="10" style="-fx-padding: 5 0 0 0;">
+        <ToggleButton fx:id="lineBtn" onAction="#lineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Линия</ToggleButton>
+        <ToggleButton fx:id="rectBtn" onAction="#rectDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Прямоугольник</ToggleButton>
+        <ToggleButton fx:id="circleBtn" onAction="#circleDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Окружность</ToggleButton>
+        <ToggleButton fx:id="polygonBtn" onAction="#polygonDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Многоугольник</ToggleButton>
+        <ToggleButton fx:id="arcBtn" onAction="#arcDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Дуга</ToggleButton>
+        <ToggleButton fx:id="splineBtn" onAction="#splineDrawing" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Сплайн</ToggleButton>
+      </HBox>
+      <Region fx:id="spacerTop" maxWidth="Infinity"/>
+      <HBox spacing="10" style="-fx-padding: 5 0 0 0;">
+        <Button onAction="#save" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Сохранить</Button>
+        <Button onAction="#open" prefWidth="120" style="-fx-background-color: #212A33; -fx-text-fill: #D3DAE4">Открыть</Button>
+      </HBox>
     </ToolBar>
   </top>
 

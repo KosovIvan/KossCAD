@@ -6,13 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mai.geomod.kosscad.configurators.*;
+import mai.geomod.kosscad.dxf.DXFReader;
+import mai.geomod.kosscad.dxf.DXFWriter;
 import mai.geomod.kosscad.editors.FigureEditor;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.util.*;
@@ -30,7 +30,7 @@ public class Controller {
     @FXML
     private ToolBar bottomBar;
     @FXML
-    private Region spacer;
+    private Region spacer, spacerTop;
     @FXML
     private VBox position;
     @FXML
@@ -100,6 +100,7 @@ public class Controller {
     private void setDefaultMouseMovedHandler() {
         PositionData data = new PositionData(position, space, coords);
         HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(spacerTop, Priority.ALWAYS);
         defaultMouseMovedHandler = e -> {
             cursor.update(e);
             data.setPosition(cursor.getPosition());
@@ -265,5 +266,17 @@ public class Controller {
             space.getWorkSpace().setOnMouseClicked(defaultMouseClickedHandler);
             borderPane.setLeft(null);
         }
+    }
+
+    @FXML
+    public void save() {
+        DXFWriter writer = new DXFWriter(space);
+        writer.save();
+    }
+
+    @FXML
+    public void open() {
+        DXFReader reader = new DXFReader(space);
+        reader.open();
     }
 }

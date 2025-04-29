@@ -137,6 +137,11 @@ public class MyArc extends ModifiableFigure{
     public String getName() { return "ДУГА_" + id; }
 
     @Override
+    public String getDXFName() {
+        return "ARC";
+    }
+
+    @Override
     public boolean isHover(double x, double y) {
         double eps = 5;
         double distance = pointsDistance(center, new MyPoint(x, y));
@@ -167,14 +172,26 @@ public class MyArc extends ModifiableFigure{
         arc.getStrokeDashArray().addAll(lineType.getPattern(scale));
     }
 
+    public MyPoint getCenter() { return center; }
+
     private void setCenter(MyPoint center) {
         arc.setCenterX(center.getX());
         arc.setCenterY(center.getY());
     }
 
+    public double getRadius() { return radius; }
+
     private void setRadius(double radius) {
         arc.setRadiusX(radius);
         arc.setRadiusY(radius);
+    }
+
+    public double getStartAngle() {
+        return arc.getStartAngle();
+    }
+
+    public double getLength() {
+        return arc.getLength();
     }
 
     @Override

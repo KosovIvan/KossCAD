@@ -43,6 +43,26 @@ public class MyPolygon extends ModifiableFigure {
         build(mode, vertex);
     }
 
+    public MyPolygon(MyPoint center, List<MyPoint> pointsList) {
+        this.center = center;
+        this.n = pointsList.size();
+
+        this.lines = new MyLine[n];
+        this.points = new MyPoint[n];
+
+        for (int i = 0; i < n; i++)
+            this.points[i] = pointsList.get(i);
+
+        for (int i = 0; i < n - 1; i++)
+            lines[i] = new MyLine(points[i], points[i + 1]);
+        lines[n - 1] = new MyLine(points[n - 1], points[0]);
+
+        this.R = pointsDistance(center, points[0]);
+        this.r = R * Math.cos(Math.PI / n);
+
+        getChildren().addAll(lines);
+    }
+
     private void build(DrawingMode mode, MyPoint vertex) {
         double extraAngle = 0;
 
@@ -187,5 +207,14 @@ public class MyPolygon extends ModifiableFigure {
     @Override
     public String getName() {
         return "МНОГОУГОЛЬНИК_" + id;
+    }
+
+    @Override
+    public String getDXFName() {
+        return "POLYLINE";
+    }
+
+    public MyPoint[] getPoints() {
+        return points;
     }
 }

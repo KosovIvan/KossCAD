@@ -142,4 +142,9 @@ public class MyQuad extends MySpline{
 
     @Override
     public String getName() { return "КВАДРАТИЧНЫЙ_СПЛАЙН_" + id; }
+
+    @Override
+    public String getDXFName() {
+        return "SPLINE";
+    }
 }

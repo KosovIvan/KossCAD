@@ -138,7 +138,10 @@ public class MyBezier extends MySpline {
     }
 
     @Override
-    public String getName() {
-        return "БЕЗЬЕ_" + id;
+    public String getName() { return "БЕЗЬЕ_" + id; }
+
+    @Override
+    public String getDXFName() {
+        return "SPLINE";
     }
 }
