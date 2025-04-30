@@ -36,12 +36,20 @@ public class PolylineEntityParser extends AbstractEntityParser {
         if (isRectangle(points)) {
             MyRect rect = new MyRect(points);
             parser.applyProperties(rect, dxfLineType, thickness, scale);
-            space.getWorkSpace().getChildren().add(rect);
+            for (MyPoint p : rect.getPoints()) {
+                p.Draw(space);
+            }
+            rect.Draw(space);
+            for (MyPoint p : rect.getPoints()) {
+                space.addObject(p);
+            }
+            space.addObject(rect);
         } else {
             MyPoint center = calculateCenter(points);
             MyPolygon polygon = new MyPolygon(center, points);
             parser.applyProperties(polygon, dxfLineType, thickness, scale);
-            space.getWorkSpace().getChildren().add(polygon);
+            polygon.Draw(space);
+            space.addObject(polygon);
         }
     }
 

@@ -3,6 +3,7 @@ package mai.geomod.kosscad.util;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Pane;
 import mai.geomod.kosscad.figures.Figure;
 import mai.geomod.kosscad.figures.MyPoint;
 import mai.geomod.kosscad.utilObjects.Coords;
+import mai.geomod.kosscad.utilObjects.MyCursor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +70,11 @@ public class WorkSpace {
 
     public void removeObject(Group object) { objectList.remove(object); }
     public void removePoints(List<MyPoint> objects) { objectList.removeAll(objects); }
+
+    public void clear() {
+        //for (int i = 0; i < workSpace.getChildren().size(); i++) if (!(workSpace.getChildren().get(i) instanceof Coords)&&!(workSpace.getChildren().get(i) instanceof MyCursor)) workSpace.getChildren().remove(workSpace.getChildren().get(i));
+        //for (int i = 0; i < objectList.size(); i++) if (!(objectList.get(i) instanceof Coords)&&!(objectList.get(i) instanceof MyCursor))objectList.remove(objectList.get(i));
+    }
 
     public double getScale() {
         return scale;

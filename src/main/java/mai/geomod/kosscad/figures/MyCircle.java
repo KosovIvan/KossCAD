@@ -67,6 +67,8 @@ public class MyCircle extends ModifiableFigure{
         return cPoint;
     }
 
+    public Circle getCircle() { return circle; }
+
     public void setCenter(double x, double y) {
         cPoint.setX(x);
         cPoint.setY(y);

@@ -66,7 +66,7 @@ public class MyRect extends ModifiableFigure {
         double sumY = point1.getY() + point2.getY() + point3.getY() + point4.getY();
         center = new MyPoint(sumX / 4, sumY / 4);
 
-        Build(point1, point2, point3, point4);
+        Build(point1, point3, point2, point4);
     }
 
     private void Build(MyPoint point1, MyPoint point2, MyPoint point3, MyPoint point4) {

@@ -27,6 +27,9 @@ public class CircleEntityParser extends AbstractEntityParser {
 
         MyCircle circle = new MyCircle(center, sceneRadius);
         applyProperties(circle, lineType, thickness, scale);
-        space.getWorkSpace().getChildren().add(circle);
+        circle.getCenter().Draw(space);
+        circle.Draw(space);
+        space.addObject(circle.getCenter());
+        space.addObject(circle);
     }
 } 

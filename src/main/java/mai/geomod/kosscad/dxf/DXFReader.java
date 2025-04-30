@@ -24,6 +24,7 @@ public class DXFReader {
         fileInit();
         if (file != null) {
             try {
+                workspace.clear();
                 readDxfFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);

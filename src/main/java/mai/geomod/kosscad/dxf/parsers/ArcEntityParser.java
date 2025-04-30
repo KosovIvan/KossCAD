@@ -48,6 +48,7 @@ public class ArcEntityParser extends AbstractEntityParser {
 
         MyArc arc = new MyArc(point1, point2, point3);
         applyProperties(arc, lineType, thickness, scale);
-        space.getWorkSpace().getChildren().add(arc);
+        arc.Draw(space);
+        space.addObject(arc);
     }
 } 

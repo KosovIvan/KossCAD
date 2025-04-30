@@ -1,5 +1,6 @@
 package mai.geomod.kosscad.dxf.parsers;
 
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import mai.geomod.kosscad.figures.MyLine;
 import mai.geomod.kosscad.figures.MyPoint;
@@ -28,6 +29,10 @@ public class LineEntityParser extends AbstractEntityParser {
 
         MyLine line = new MyLine(point1, point2);
         applyProperties(line, lineType, thickness, scale);
-        space.getWorkSpace().getChildren().add(line);
+        line.getStartPoint().Draw(space);
+        line.getEndPoint().Draw(space);
+        line.Draw(space);
+        space.addObjects(new Group[] {line.getStartPoint(), line.getEndPoint()});
+        space.addObject(line);
     }
 }
